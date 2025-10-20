@@ -1,0 +1,50 @@
+#include "../inc/mini.h"
+
+t_mini	*mini(void)
+{
+	static t_mini	*info = NULL;
+
+	if (info == NULL)
+	{
+		info = ft_calloc(sizeof(t_mini), 1);
+		if (!info)
+			return (NULL);
+	}
+	return (info);
+}
+
+int	arg_control(int ac, char **av)
+{
+	int	i;
+	
+	if (ac != 2)
+		return (FAIL);
+	i = 0;
+	while (av[1][i])
+		i++;
+	if (i < 4
+	|| av[1][i - 3] != '.' || av[1][i - 2] != 'r' || av[1][i - 1] != 't')
+		return (FAIL);
+	mini()->file_name = av[1];
+	return (SUCCESS);
+}
+
+void	quit(char *msg, int retval)
+{
+	if (ft_strncmp(msg, ERR_CALLOCFAIL, ft_strlen(msg)) == FALSE)
+	{
+		if (mini()->mlx.img)
+			mlx_destroy_image(mini()->mlx.mlx, mini()->mlx.img);
+		if (mini()->mlx.win)
+			mlx_destroy_window(mini()->mlx.mlx, mini()->mlx.win);
+		if (mini()->mlx.mlx)
+			mlx_destroy_display(mini()->mlx.mlx);
+		free(mini()->mlx.mlx);
+		mini()->mlx.mlx = NULL;
+		mini()->mlx.win = NULL;
+		mini()->mlx.img = NULL;
+		free(mini());
+	}
+	printf("%s%s%s\n", COLOR_RED, msg, COLOR_RESET);
+	exit(retval);
+}
