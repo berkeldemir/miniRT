@@ -32,7 +32,7 @@ int	main(int ac, char **av)
 	parser();
 
 	t_list *lst = mini()->objs;
-	int		i = 0;
+	int		i = 1;
 	while (lst)
 	{
 		t_obj	*obj = ((t_obj *)lst->content);

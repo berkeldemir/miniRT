@@ -21,7 +21,7 @@
 # define MSG_OK ""
 # define ERR_CALLOCFAIL " Calloc failed! "
 # define ERR_WRONG_ARGS " Arguments are wrong! "
-# define ERR_INITIALIZE " Initialization failed, somehow. "
+# define ERR_INITIALIZE " Initialization failed! "
 # define ERR_OPENFAIL " File open failed! "
 # define ERR_PARSEFAIL " Parse failed! "
 
@@ -137,32 +137,36 @@ typedef struct	s_mini
 	t_list		*objs;
 }	t_mini;
 
+char		*get_next_line(int fd);
+
+// helpers.c
 t_mini		*mini(void);
 int			arg_control(int ac, char **av);
-int			start_hooks(void);
 void		quit(char *msg, int retval);
-char		*get_next_line(int fd);
+
+// hooks.c
+int			start_hooks(void);
+
+// parse_objects.c
+int			parse_sphere(char ***tokens);
+int			parse_plane(char ***tokens);
+int			parse_cylinder(char ***tokens);
+
+// parse_scene.c
+int			parse_ambient(char ***tokens);
+int			parse_camera(char ***tokens);
+int			parse_light(char ***tokens);
 
 // parser.c
 void		free_split(char **split);
 void		parser(void);
 
-// parse_objects.c
-int			parse_ambient(char ***tokens);
-int			parse_camera(char ***tokens);
-int			parse_light(char ***tokens);
-int			parse_sphere(char ***tokens);
-int			parse_plane(char ***tokens);
-int			parse_cylinder(char ***tokens);
-
-// free.c
-
-// utils.c
-int	rt_color(t_color *ptr, char *color);
-int	rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
-
 // rt_converters.c
 int	rt_atoi(char *str, int min, int max, void *put);
 int	rt_atod(char *str, double min, double max, void *put);
+
+// rt_utils.c
+int	rt_color(t_color *ptr, char *color);
+int	rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
 
 #endif
