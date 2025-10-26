@@ -10,7 +10,9 @@ MLXFLAGS   = -L$(MLXPATH) -lmlx -lXext -lX11 -lm
 NAME       = miniRT
 SRCS       = ./src/main.c \
 			./src/helpers.c \
-			./src/hooks.c
+			./src/hooks.c \
+			./inc/gnl/get_next_line.c \
+			./inc/gnl/get_next_line_utils.c
 OBJS       = $(SRCS:.c=.o)
 
 all: libft $(NAME)
@@ -25,10 +27,10 @@ libft:
 	@make -C $(LIBFTPATH)
 
 clean:
-	rm -f $(NAME)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(OBJS)
+	rm -f $(NAME)
 
 ffclean: fclean
 	make fclean -C $(LIBFTPATH)

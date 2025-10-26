@@ -4,6 +4,7 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include "./mlx/mlx.h"
 # include "./libft/include/libft.h"
@@ -20,6 +21,7 @@
 # define ERR_CALLOCFAIL " Calloc failed! "
 # define ERR_WRONG_ARGS " Arguments are wrong! "
 # define ERR_INITIALIZE " Initialization failed, somehow. "
+# define ERR_OPENFAIL " File open failed! "
 
 # define W 800
 # define H 600
@@ -47,5 +49,7 @@ t_mini		*mini(void);
 int			arg_control(int ac, char **av);
 int			start_hooks(void);
 void		quit(char *msg, int retval);
+char		*get_next_line(int fd);
+
 
 #endif
