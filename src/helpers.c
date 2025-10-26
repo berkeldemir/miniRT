@@ -43,6 +43,7 @@ void	quit(char *msg, int retval)
 		mini()->mlx.mlx = NULL;
 		mini()->mlx.win = NULL;
 		mini()->mlx.img = NULL;
+		ft_lstclear(&mini()->objs, free);
 		free(mini());
 	}
 	printf("%s%s%s\n", COLOR_RED, msg, COLOR_RESET);

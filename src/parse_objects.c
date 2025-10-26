@@ -2,24 +2,71 @@
 
 int	parse_sphere(char ***tokens)
 {
-	(void)tokens;
-	printf("\n--> SPHERE <--\n");
+	t_obj	*obj;
+
+	printf("--> SPHERE <--\n");
+	obj = ft_calloc(sizeof(t_obj), 1);
+	if (!obj)
+		return (FAIL);
+	obj->type = SPHERE;
+	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || \
+		rt_atod(tokens[0][2], 0.0, 999999.0, &obj->diameter) == FAIL || \
+		rt_color(&obj->color, tokens[0][3]) == FAIL)
+		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
+	/*printf("Type   : %c\n", obj->type);
+	printf("Coords : %f\t%f\t%f\n", obj->coords.x,  obj->coords.y, obj->coords.z);
+	printf("Normals: %f\t%f\t%f\n", obj->normals.x,  obj->normals.y, obj->normals.z);
+	printf("Diamet.: %f\n", obj->diameter);
+	printf("Height : %f\n\n", obj->height);*/
+	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
 	return (SUCCESS);
 }
 
 int	parse_plane(char ***tokens)
 {
-	(void)tokens;
-	printf("\n--> PLANE <--\n");
+	t_obj	*obj;
+
+	printf("--> PLANE <--\n");
+	obj = ft_calloc(sizeof(t_obj), 1);
+	if (!obj)
+		return (FAIL);
+	obj->type = PLANE;
+	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || \
+		rt_coords(&obj->normals, tokens[0][2], TRUE) == FAIL || \
+		rt_color(&obj->color, tokens[0][3]) == FAIL)
+		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
+	/*printf("Type   : %c\n", obj->type);
+	printf("Coords : %f\t%f\t%f\n", obj->coords.x,  obj->coords.y, obj->coords.z);
+	printf("Normals: %f\t%f\t%f\n", obj->normals.x,  obj->normals.y, obj->normals.z);
+	printf("Diamet.: %f\n", obj->diameter);
+	printf("Height : %f\n\n", obj->height);*/
+	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
 	return (SUCCESS);
 }
 
 int	parse_cylinder(char ***tokens)
 {
-	(void)tokens;
-	printf("\n--> CYLINDER <--\n");
+	t_obj	*obj;
+
+	printf("--> CYLINDER <--\n");
+	obj = ft_calloc(sizeof(t_obj), 1);
+	if (!obj)
+		return (FAIL);
+	obj->type = CYLINDER;
+	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || 
+		rt_coords(&obj->normals, tokens[0][2], TRUE) == FAIL || \
+		rt_atod(tokens[0][3], 0.0, 999999.0, &obj->diameter) == FAIL || \
+		rt_atod(tokens[0][4], 0.0, 999999.0, &obj->height) == FAIL || \
+		rt_color(&obj->color, tokens[0][5]) == FAIL)
+		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
+	/*printf("Type   : %c\n", obj->type);
+	printf("Coords : %f\t%f\t%f\n", obj->coords.x,  obj->coords.y, obj->coords.z);
+	printf("Normals: %f\t%f\t%f\n", obj->normals.x,  obj->normals.y, obj->normals.z);
+	printf("Diamet.: %f\n", obj->diameter);
+	printf("Height : %f\n\n", obj->height);*/
+	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
 	return (SUCCESS);
 }

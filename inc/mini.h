@@ -29,6 +29,10 @@
 # define H 600
 # define TITLE "miniRT"
 
+# define SPHERE 's'
+# define PLANE 'p'
+# define CYLINDER 'c'
+
 typedef enum e_bool
 {
 	FALSE,
@@ -56,12 +60,14 @@ typedef union u_color
 
 typedef struct	s_ambient
 {
+	t_bool	isset;
 	double	ratio; // [0.0,1.0]
 	t_color	color;
 }	t_ambient;
 
 typedef struct	s_camera
 {
+	t_bool	isset;
 	t_vec3	coords;
 	t_vec3	normals; // [-1,1] for each x,y,z.
 	int		h_degree; // [0,180] A.K.A. "FOV".
@@ -69,10 +75,45 @@ typedef struct	s_camera
 
 typedef struct	s_light
 {
+	t_bool	isset;
 	t_vec3	coords;
 	double	brightness; // [0.0, 1.0]
 	t_color	color;
 }	t_light;
+
+/*
+typedef struct	s_sphere
+{
+	t_vec3	coords;
+	double	diameter;
+	t_color	color;
+}	t_sphere;
+
+typedef struct	s_plane
+{
+	t_vec3	coords;
+	t_vec3	normals; // [-1, 1] for each x,y,z.
+	t_color	color;
+}	t_plane;
+
+typedef struct	s_cylinder
+{
+	t_vec3	coords;
+	t_vec3	normals; // [-1, 1] for each x,y,z.
+	double	diameter;
+	double	height;
+}	t_cylinder;
+*/
+
+typedef struct	s_obj
+{
+	char	type;
+	t_vec3	coords;
+	t_vec3	normals; // [-1, 1] for each x,y,z.
+	double	diameter;
+	double	height;
+	t_color	color;
+}	t_obj;
 
 typedef struct	s_mlx
 {
@@ -93,10 +134,7 @@ typedef struct	s_mini
 	t_ambient	a;
 	t_camera	c;
 	t_light		l;
-	t_bool		a_set;
-	t_bool		c_set;
-	t_bool		l_set;
-	t_list		objs;
+	t_list		*objs;
 }	t_mini;
 
 t_mini		*mini(void);
@@ -120,8 +158,8 @@ int			parse_cylinder(char ***tokens);
 // free.c
 
 // utils.c
-int	assign_color(t_color *ptr, char *color);
-int	assign_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
+int	rt_color(t_color *ptr, char *color);
+int	rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
 
 // rt_converters.c
 int	rt_atoi(char *str, int min, int max, void *put);

@@ -14,9 +14,9 @@ int	initializer(void)
 		return (FAIL);
 	if (start_hooks() == FAIL)
 		return (FAIL);
-	mini()->a_set = FALSE;
-	mini()->c_set = FALSE;
-	mini()->l_set = FALSE;
+	mini()->a.isset = FALSE;
+	mini()->c.isset = FALSE;
+	mini()->l.isset = FALSE;
 	printf("%s\n", mini()->file_name);
 	return (SUCCESS);
 }
@@ -30,5 +30,22 @@ int	main(int ac, char **av)
 	if (initializer() == FAIL)
 		quit(ERR_INITIALIZE, FAIL);
 	parser();
+
+	t_list *lst = mini()->objs;
+	int		i = 0;
+	while (lst)
+	{
+		t_obj	*obj = ((t_obj *)lst->content);
+		printf("OBJECT %i\n", i);
+		printf("Type     : %c\n", obj->type);
+		printf("Coords   : %f\t%f\t%f\n", obj->coords.x, obj->coords.y, obj->coords.z);
+		printf("Normals  : %f\t%f\t%f\n", obj->normals.x, obj->normals.y, obj->normals.z);
+		printf("Diameter : %f\n", obj->diameter);
+		printf("Height   : %f\n", obj->height);
+		printf("Color    : %d\n", obj->color.value);
+		printf("\n");
+		lst = lst->next;
+		i++;
+	}
 	mlx_loop(mini()->mlx.mlx);
 }

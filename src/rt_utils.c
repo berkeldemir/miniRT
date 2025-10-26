@@ -1,6 +1,6 @@
 #include "../inc/mini.h"
 
-int	assign_color(t_color *ptr, char *color)
+int	rt_color(t_color *ptr, char *color)
 {
 	// char *color format is "r,g,b"
 	char	**rgb;
@@ -20,7 +20,7 @@ int	assign_color(t_color *ptr, char *color)
 	return (SUCCESS);
 }
 
-int	assign_coords(t_vec3 *ptr, char *coords, t_bool limit_one)
+int	rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one)
 {
 	// char *coords format is "x,y,z"
 	char	**xyz;

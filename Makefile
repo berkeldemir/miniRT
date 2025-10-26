@@ -34,6 +34,7 @@ mlx:
 
 libft:
 	@make -C $(LIBFTPATH)
+	@make bonus -C $(LIBFTPATH)
 
 clean:
 	rm -f $(OBJS)
