@@ -1,6 +1,6 @@
 #include "../inc/mini.h"
 
-static int keyboard_ctrls(int key, void *null)
+static int	keyboard_ctrls(int key, void *null)
 {
 	(void)null;
 	if (key == XK_Escape)
@@ -8,7 +8,7 @@ static int keyboard_ctrls(int key, void *null)
 	return (SUCCESS);
 }
 
-static int	destroy_notify(void	*null)
+static int	destroy_notify(void *null)
 {
 	(void)null;
 	quit(MSG_OK, 0);

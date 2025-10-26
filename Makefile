@@ -11,6 +11,9 @@ NAME       = miniRT
 SRCS       = ./src/main.c \
 			./src/helpers.c \
 			./src/hooks.c \
+			./src/parse.c \
+			./src/free.c \
+			./src/parse_objects.c \
 			./inc/gnl/get_next_line.c \
 			./inc/gnl/get_next_line_utils.c
 OBJS       = $(SRCS:.c=.o)

@@ -13,10 +13,10 @@ t_mini	*mini(void)
 	return (info);
 }
 
-char *clear_line(char *line)
+char	*clear_line(char *line)
 {
-	char *new_line;
-	int i;
+	char	*new_line;
+	int		i;
 
 	i = 0;
 	new_line = ft_strdup(line);
@@ -26,29 +26,29 @@ char *clear_line(char *line)
 			new_line[i] = ' ';
 		i++;
 	}
-	line = ft_strtrim(new_line, ' ');
+	line = ft_strtrim(new_line, " ");
 	free(new_line);
 	return (line);
 }
 
-int open_file(char *file_name)
+int	open_file(void)
 {
-	int	fd;
-	int flag;
-	char *line;
+	int		fd;
+	int		flag;
+	char	*line;
 
 	flag = 0;
-	fd = open(file_name, O_RDONLY);
+	fd = open(mini()->file_name, O_RDONLY);
 	if (fd < 0)
 		quit(ERR_OPENFAIL, FAIL);
 	while (flag != 1)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break;
+			break ;
 		line = clear_line(line);
-		// if(parse_input(line))
-		// 	flag = 1;
+		if(parse_input(line))
+			flag = 1;
 		free(line);
 	}
 	close(fd);
@@ -58,17 +58,17 @@ int open_file(char *file_name)
 int	arg_control(int ac, char **av)
 {
 	int	i;
-	
+
 	if (ac != 2)
 		return (FAIL);
 	i = 0;
 	while (av[1][i])
 		i++;
-	if (i < 4
-	|| av[1][i - 3] != '.' || av[1][i - 2] != 'r' || av[1][i - 1] != 't')
+	if (i < 4 || av[1][i - 3] != '.' || av[1][i - 2] != 'r' || av[1][i
+		- 1] != 't')
 		return (FAIL);
 	mini()->file_name = av[1];
-	open_file(mini()->file_name);
+	open_file();
 	return (SUCCESS);
 }
 

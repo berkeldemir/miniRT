@@ -51,5 +51,17 @@ int			start_hooks(void);
 void		quit(char *msg, int retval);
 char		*get_next_line(int fd);
 
+// parse.c
+int			parse_input(char *line);
 
+// parse_objects.c
+int			parse_ambient(char **tokens);
+int			parse_camera(char **tokens);
+int			parse_light(char **tokens);
+int			parse_sphere(char **tokens);
+int			parse_plane(char **tokens);
+int			parse_cylinder(char **tokens);
+
+// free.c
+void		free_split(char **split);
 #endif
