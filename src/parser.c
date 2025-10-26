@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parser.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbayram <hbayram@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,23 @@
 
 #include "../inc/mini.h"
 
-int	parse_input(char *line)
+void	free_split(char **split)
+{
+	int i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+
+static int	parse_input(char *line)
 {
 	char **tokens;
 
@@ -20,24 +36,61 @@ int	parse_input(char *line)
 		return (0);
 	tokens = ft_split(line, ' ');
 	if (!tokens || !tokens[0])
-	{
-		// handle error
-		return (0);
-	}
-	if (ft_strncmp(tokens[0], "A", 1) == 0)
-		parse_ambient(tokens);
+		return (FAIL);
+	else if (ft_strncmp(tokens[0], "A", 1) == 0)
+		return (parse_ambient(&tokens));
 	else if (ft_strncmp(tokens[0], "C", 1) == 0)
-		parse_camera(tokens);
+		return (parse_camera(&tokens));
 	else if (ft_strncmp(tokens[0], "L", 1) == 0)
-		parse_light(tokens);
+		return (parse_light(&tokens));
 	else if (ft_strncmp(tokens[0], "sp", 2) == 0)
-		parse_sphere(tokens);
+		return (parse_sphere(&tokens));
 	else if (ft_strncmp(tokens[0], "pl", 2) == 0)
-		parse_plane(tokens);
+		return (parse_plane(&tokens));
 	else if (ft_strncmp(tokens[0], "cy", 2) == 0)
-		parse_cylinder(tokens);
+		return (parse_cylinder(&tokens));
 	else
-		; // handle unknown
-	free_split(tokens);
-	return (0);
+		return (FAIL);
+	return (SUCCESS);
+}
+
+static char	*clear_line(char *line)
+{
+	char	*new_line;
+	int		i;
+
+	i = 0;
+	new_line = ft_strdup(line);
+	free(line);
+	while (new_line[i])
+	{
+		if (new_line[i] == '\n' || new_line[i] == '\t')
+			new_line[i] = ' ';
+		i++;
+	}
+	line = ft_strtrim(new_line, " ");
+	free(new_line);
+	return (line);
+}
+
+void	parser(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(mini()->file_name, O_RDONLY);
+	if (fd < 0)
+		quit(ERR_OPENFAIL, FAIL);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		line = clear_line(line);
+		if (parse_input(line) == FAIL)
+			(free(line), quit(ERR_PARSEFAIL, FAIL));
+		free(line);
+	}
+	close(fd);
+	return ;
 }

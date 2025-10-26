@@ -3,15 +3,15 @@
 static int	keyboard_ctrls(int key, void *null)
 {
 	(void)null;
-	if (key == XK_Escape)
-		quit(MSG_OK, 0);
+	if (key == XK_Escape || key == XK_Q || key == XK_q)
+		quit(MSG_OK, SUCCESS);
 	return (SUCCESS);
 }
 
 static int	destroy_notify(void *null)
 {
 	(void)null;
-	quit(MSG_OK, 0);
+	quit(MSG_OK, SUCCESS);
 	return (SUCCESS);
 }
 

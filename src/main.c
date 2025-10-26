@@ -14,6 +14,9 @@ int	initializer(void)
 		return (FAIL);
 	if (start_hooks() == FAIL)
 		return (FAIL);
+	mini()->a_set = FALSE;
+	mini()->c_set = FALSE;
+	mini()->l_set = FALSE;
 	printf("%s\n", mini()->file_name);
 	return (SUCCESS);
 }
@@ -26,5 +29,6 @@ int	main(int ac, char **av)
 		quit(ERR_WRONG_ARGS, FAIL);
 	if (initializer() == FAIL)
 		quit(ERR_INITIALIZE, FAIL);
+	parser();
 	mlx_loop(mini()->mlx.mlx);
 }

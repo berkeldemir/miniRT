@@ -13,48 +13,6 @@ t_mini	*mini(void)
 	return (info);
 }
 
-char	*clear_line(char *line)
-{
-	char	*new_line;
-	int		i;
-
-	i = 0;
-	new_line = ft_strdup(line);
-	while (new_line[i])
-	{
-		if (new_line[i] == '\n' || new_line[i] == '\t')
-			new_line[i] = ' ';
-		i++;
-	}
-	line = ft_strtrim(new_line, " ");
-	free(new_line);
-	return (line);
-}
-
-int	open_file(void)
-{
-	int		fd;
-	int		flag;
-	char	*line;
-
-	flag = 0;
-	fd = open(mini()->file_name, O_RDONLY);
-	if (fd < 0)
-		quit(ERR_OPENFAIL, FAIL);
-	while (flag != 1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		line = clear_line(line);
-		if(parse_input(line))
-			flag = 1;
-		free(line);
-	}
-	close(fd);
-	return (SUCCESS);
-}
-
 int	arg_control(int ac, char **av)
 {
 	int	i;
@@ -68,13 +26,12 @@ int	arg_control(int ac, char **av)
 		- 1] != 't')
 		return (FAIL);
 	mini()->file_name = av[1];
-	open_file();
 	return (SUCCESS);
 }
 
 void	quit(char *msg, int retval)
 {
-	if (ft_strncmp(msg, ERR_CALLOCFAIL, ft_strlen(msg)) == FALSE)
+	if (ft_strncmp(msg, ERR_CALLOCFAIL, ft_strlen(msg)) == 0)
 	{
 		if (mini()->mlx.img)
 			mlx_destroy_image(mini()->mlx.mlx, mini()->mlx.img);
