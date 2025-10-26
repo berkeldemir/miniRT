@@ -9,7 +9,7 @@ int	rt_color(t_color *ptr, char *color)
 	if (!rgb)
 		return (FAIL);
 	if (!rgb[0] || !rgb[1] || !rgb[2])
-		return (FAIL);
+		return (free_split(rgb), FAIL);
 	if (rgb[3] != NULL)
 		return (free_split(rgb), FAIL);
 	if (rt_atoi(rgb[2], 0, 255, &ptr->b) == FAIL || \
