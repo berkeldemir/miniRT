@@ -40,7 +40,7 @@ int	main(int ac, char **av)
 		printf("OBJECT %i\n", i);
 		printf("Type     : %c\n", obj->type);
 		printf("Coords   : %f\t%f\t%f\n", obj->coords.x, obj->coords.y, obj->coords.z);
-		printf("Normals  : %f\t%f\t%f\n", obj->normals.x, obj->normals.y, obj->normals.z);
+		printf("normal  : %f\t%f\t%f\n", obj->normal.x, obj->normal.y, obj->normal.z);
 		printf("Diameter : %f\n", obj->diameter);
 		printf("Height   : %f\n", obj->height);
 		printf("Color    : %d\n", obj->color.value);

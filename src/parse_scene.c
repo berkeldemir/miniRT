@@ -36,9 +36,9 @@ int	parse_camera(char ***tokens)
 	if (rt_coords(&mini()->c.coords, tokens[0][1], FALSE) == FAIL)
 		return (FAIL);
 	printf("Coords : %f\t%f\t%f\n", mini()->c.coords.x, mini()->c.coords.y, mini()->c.coords.z);
-	if (rt_coords(&mini()->c.normals, tokens[0][2], TRUE) == FAIL)
+	if (rt_coords(&mini()->c.normal, tokens[0][2], TRUE) == FAIL)
 		return (FAIL);
-	printf("Normals: %f\t%f\t%f\n", mini()->c.normals.x, mini()->c.normals.y, mini()->c.normals.z);
+	printf("normal: %f\t%f\t%f\n", mini()->c.normal.x, mini()->c.normal.y, mini()->c.normal.z);
 	if (rt_atoi(tokens[0][3], 0, 180, &mini()->c.h_degree) == FAIL)
 		return (FAIL);
 	printf("FOV    : %i\n", mini()->c.h_degree);

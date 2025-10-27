@@ -73,7 +73,7 @@ typedef struct	s_camera
 {
 	t_bool	isset;
 	t_vec3	coords;
-	t_vec3	normals; // [-1,1] for each x,y,z.
+	t_vec3	normal; // [-1,1] for each x,y,z.
 	int		h_degree; // [0,180] A.K.A. "FOV".
 }	t_camera;
 
@@ -96,14 +96,14 @@ typedef struct	s_sphere
 typedef struct	s_plane
 {
 	t_vec3	coords;
-	t_vec3	normals; // [-1, 1] for each x,y,z.
+	t_vec3	normal; // [-1, 1] for each x,y,z.
 	t_color	color;
 }	t_plane;
 
 typedef struct	s_cylinder
 {
 	t_vec3	coords;
-	t_vec3	normals; // [-1, 1] for each x,y,z.
+	t_vec3	normal; // [-1, 1] for each x,y,z.
 	double	diameter;
 	double	height;
 }	t_cylinder;
@@ -113,7 +113,7 @@ typedef struct	s_obj
 {
 	char	type;
 	t_vec3	coords;
-	t_vec3	normals; // [-1, 1] for each x,y,z.
+	t_vec3	normal; // [-1, 1] for each x,y,z.
 	double	diameter;
 	double	height;
 	t_color	color;
