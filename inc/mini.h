@@ -9,6 +9,7 @@
 # include <float.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <math.h>
 # include "./mlx/mlx.h"
 # include "./libft/include/libft.h"
 
@@ -19,14 +20,17 @@
 # define COLOR_RESET "\e[0m"
 
 # define MSG_OK ""
-# define ERR_CALLOCFAIL " Calloc failed! "
-# define ERR_WRONG_ARGS " Arguments are wrong! "
+# define ERR_CALLOC " Calloc failed! "
+# define ERR_ARGS " Arguments are wrong! "
 # define ERR_INITIALIZE " Initialization failed! "
 # define ERR_OPENFAIL " File open failed! "
-# define ERR_PARSEFAIL " Parse failed! "
+# define ERR_PARSE " Parse failed! "
+# define ERR_DRAW " Draw failed! "
 
 # define W 800
 # define H 600
+# define WD 800.00
+# define HD 600.00
 # define TITLE "miniRT"
 
 # define SPHERE 's'
@@ -139,6 +143,9 @@ typedef struct	s_mini
 
 char		*get_next_line(int fd);
 
+// draw.c
+int			draw(void);
+
 // helpers.c
 t_mini		*mini(void);
 int			arg_control(int ac, char **av);
@@ -159,7 +166,7 @@ int			parse_light(char ***tokens);
 
 // parser.c
 void		free_split(char **split);
-void		parser(void);
+int			parser(void);
 
 // rt_converters.c
 int	rt_atoi(char *str, int min, int max, void *put);

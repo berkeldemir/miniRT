@@ -50,7 +50,7 @@ static int	parse_input(char *line)
 	else if (ft_strncmp(tokens[0], "cy", 2) == 0)
 		return (parse_cylinder(&tokens));
 	else
-		return (FAIL);
+		return (free(tokens), FAIL);
 	return (SUCCESS);
 }
 
@@ -73,7 +73,7 @@ static char	*clear_line(char *line)
 	return (line);
 }
 
-void	parser(void)
+int	parser(void)
 {
 	int		fd;
 	char	*line;
@@ -81,6 +81,9 @@ void	parser(void)
 	fd = open(mini()->file_name, O_RDONLY);
 	if (fd < 0)
 		quit(ERR_OPENFAIL, FAIL);
+	mini()->a.isset = FALSE;
+	mini()->c.isset = FALSE;
+	mini()->l.isset = FALSE;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -88,9 +91,13 @@ void	parser(void)
 			break ;
 		line = clear_line(line);
 		if (parse_input(line) == FAIL)
-			(free(line), quit(ERR_PARSEFAIL, FAIL));
+			return (free(line), FAIL);
 		free(line);
 	}
 	close(fd);
-	return ;
+	if (mini()->a.isset == FALSE || \
+		mini()->c.isset == FALSE || \
+		mini()->l.isset == FALSE)
+		return (FAIL);
+	return (SUCCESS);
 }

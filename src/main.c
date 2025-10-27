@@ -8,15 +8,13 @@ int	initializer(void)
 	m->mlx.mlx = mlx_init();
 	m->mlx.win = mlx_new_window(m->mlx.mlx, W, H, TITLE);
 	m->mlx.img = mlx_new_image(m->mlx.mlx, W, H);
-	m->mlx.ptr = mlx_get_data_addr(m->mlx.img, &m->mlx.bpp, &m->mlx.sizeline,
-			&m->mlx.endian);
+	m->mlx.ptr = mlx_get_data_addr(m->mlx.img, &m->mlx.bpp, \
+				&m->mlx.sizeline, \
+				&m->mlx.endian);
 	if (!m->mlx.mlx || !m->mlx.win || !m->mlx.img || !m->mlx.ptr)
 		return (FAIL);
 	if (start_hooks() == FAIL)
 		return (FAIL);
-	mini()->a.isset = FALSE;
-	mini()->c.isset = FALSE;
-	mini()->l.isset = FALSE;
 	printf("%s\n", mini()->file_name);
 	return (SUCCESS);
 }
@@ -24,13 +22,16 @@ int	initializer(void)
 int	main(int ac, char **av)
 {
 	if (!mini())
-		quit(ERR_CALLOCFAIL, FAIL);
+		quit(ERR_CALLOC, FAIL);
 	if (arg_control(ac, av) == FAIL)
-		quit(ERR_WRONG_ARGS, FAIL);
+		quit(ERR_ARGS, FAIL);
+	if (parser() == FAIL)
+		quit(ERR_PARSE, FAIL);
 	if (initializer() == FAIL)
 		quit(ERR_INITIALIZE, FAIL);
-	parser();
-
+	if (draw() == FAIL)
+		quit(ERR_DRAW, FAIL);
+	/*
 	t_list *lst = mini()->objs;
 	int		i = 1;
 	while (lst)
@@ -46,6 +47,6 @@ int	main(int ac, char **av)
 		printf("\n");
 		lst = lst->next;
 		i++;
-	}
+	}*/
 	mlx_loop(mini()->mlx.mlx);
 }

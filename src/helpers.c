@@ -31,21 +31,18 @@ int	arg_control(int ac, char **av)
 
 void	quit(char *msg, int retval)
 {
-	if (ft_strncmp(msg, ERR_CALLOCFAIL, ft_strlen(msg)) == 0)
-	{
-		if (mini()->mlx.img)
-			mlx_destroy_image(mini()->mlx.mlx, mini()->mlx.img);
-		if (mini()->mlx.win)
-			mlx_destroy_window(mini()->mlx.mlx, mini()->mlx.win);
-		if (mini()->mlx.mlx)
-			mlx_destroy_display(mini()->mlx.mlx);
-		free(mini()->mlx.mlx);
-		mini()->mlx.mlx = NULL;
-		mini()->mlx.win = NULL;
-		mini()->mlx.img = NULL;
-		ft_lstclear(&mini()->objs, free);
-		free(mini());
-	}
+	if (mini()->mlx.img)
+		mlx_destroy_image(mini()->mlx.mlx, mini()->mlx.img);
+	if (mini()->mlx.win)
+		mlx_destroy_window(mini()->mlx.mlx, mini()->mlx.win);
+	if (mini()->mlx.mlx)
+		mlx_destroy_display(mini()->mlx.mlx);
+	free(mini()->mlx.mlx);
+	mini()->mlx.mlx = NULL;
+	mini()->mlx.win = NULL;
+	mini()->mlx.img = NULL;
+	ft_lstclear(&mini()->objs, free);
+	free(mini());
 	printf("%s%s%s\n", COLOR_RED, msg, COLOR_RESET);
 	exit(retval);
 }
