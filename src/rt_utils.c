@@ -41,3 +41,13 @@ int	rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one)
 	free_split(xyz);
 	return (SUCCESS);
 }
+
+t_vec3	v3_new(double x, double y, double z)
+{
+	t_vec3	new;
+
+	new.x = x;
+	new.y = y;
+	new.z = z;
+	return (new);
+}

@@ -144,36 +144,42 @@ typedef struct	s_mini
 char		*get_next_line(int fd);
 
 // draw.c
-int			draw(void);
+int		draw(void);
 
 // helpers.c
-t_mini		*mini(void);
-int			arg_control(int ac, char **av);
-void		quit(char *msg, int retval);
+t_mini	*mini(void);
+int		arg_control(int ac, char **av);
+void	quit(char *msg, int retval);
 
 // hooks.c
-int			start_hooks(void);
+int		start_hooks(void);
 
 // parse_objects.c
-int			parse_sphere(char ***tokens);
-int			parse_plane(char ***tokens);
-int			parse_cylinder(char ***tokens);
+int		parse_sphere(char ***tokens);
+int		parse_plane(char ***tokens);
+int		parse_cylinder(char ***tokens);
 
 // parse_scene.c
-int			parse_ambient(char ***tokens);
-int			parse_camera(char ***tokens);
-int			parse_light(char ***tokens);
+int		parse_ambient(char ***tokens);
+int		parse_camera(char ***tokens);
+int		parse_light(char ***tokens);
 
 // parser.c
-void		free_split(char **split);
-int			parser(void);
+void	free_split(char **split);
+int		parser(void);
 
 // rt_converters.c
-int	rt_atoi(char *str, int min, int max, void *put);
-int	rt_atod(char *str, double min, double max, void *put);
+int		rt_atoi(char *str, int min, int max, void *put);
+int		rt_atod(char *str, double min, double max, void *put);
 
 // rt_utils.c
-int	rt_color(t_color *ptr, char *color);
-int	rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
+int		rt_color(t_color *ptr, char *color);
+int		rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
+t_vec3	v3_new(double x, double y, double z);
+
+// v3_helpers.c
+t_vec3  v3_calc2(t_vec3 a, char operation, t_vec3 b);
+double	v3_calc2_dotprod(t_vec3 a, t_vec3 b);
+t_vec3	v3_calc_normalize(t_vec3 a);
 
 #endif

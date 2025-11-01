@@ -22,6 +22,7 @@ SRCS       = $(GNLFILES) \
 			./src/parse_objects.c \
 			./src/rt_converters.c \
 			./src/rt_utils.c \
+			./src/v3_helpers.c \
 
 OBJS       = $(SRCS:.c=.o)
 
