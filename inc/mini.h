@@ -181,5 +181,6 @@ t_vec3	v3_new(double x, double y, double z);
 t_vec3  v3_calc2(t_vec3 a, char operation, t_vec3 b);
 double	v3_calc2_dotprod(t_vec3 a, t_vec3 b);
 t_vec3	v3_calc_normalize(t_vec3 a);
+t_vec3	v3_calc2_crossprod(t_vec3 a, t_vec3 b);
 
 #endif
