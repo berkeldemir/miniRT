@@ -50,6 +50,12 @@ typedef struct	s_vec3
 	double	z;
 }	t_vec3;
 
+typedef struct	s_ray
+{
+	t_vec3	origin;
+	t_vec3	direction;
+}	t_ray;
+
 typedef union u_color
 {
 	uint32_t	value;
@@ -75,6 +81,9 @@ typedef struct	s_camera
 	t_vec3	coords;
 	t_vec3	normal; // [-1,1] for each x,y,z.
 	int		h_degree; // [0,180] A.K.A. "FOV".
+	t_vec3  fwd; // new
+    t_vec3  right; // new
+    t_vec3  up; // new
 }	t_camera;
 
 typedef struct	s_light
@@ -144,7 +153,7 @@ typedef struct	s_mini
 char		*get_next_line(int fd);
 
 // draw.c
-int		draw(void);
+int		render(void);
 
 // helpers.c
 t_mini	*mini(void);
@@ -181,6 +190,6 @@ t_vec3	v3_new(double x, double y, double z);
 t_vec3  v3_calc2(t_vec3 a, char operation, t_vec3 b);
 double	v3_calc2_dotprod(t_vec3 a, t_vec3 b);
 t_vec3	v3_calc_normalize(t_vec3 a);
-t_vec3	v3_calc2_crossprod(t_vec3 a, t_vec3 b);
+t_vec3	v3_calc2_cross(t_vec3 a, t_vec3 b);
 
 #endif

@@ -66,7 +66,7 @@ t_vec3	v3_calc_normalize(t_vec3 a)
 	return (new);
 }
 
-t_vec3	v3_calc2_crossprod(t_vec3 a, t_vec3 b)
+t_vec3	v3_calc2_cross(t_vec3 a, t_vec3 b)
 {
 	t_vec3	new;
 

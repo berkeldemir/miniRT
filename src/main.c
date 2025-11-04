@@ -1,6 +1,21 @@
 #include "../inc/mini.h"
 
-int	initializer(void)
+static int	normalize_normals(void)
+{
+	t_list	*obj;
+
+	obj = mini()->objs;
+	mini()->c.normal = v3_calc_normalize(mini()->c.normal);
+	while (obj != NULL)
+	{
+		((t_obj *)obj->content)->normal = \
+		v3_calc_normalize(((t_obj *)obj->content)->normal);
+		obj = obj->next;
+	}
+	return (SUCCESS);
+}
+
+static int	initializer(void)
 {
 	t_mini	*m;
 
@@ -13,6 +28,7 @@ int	initializer(void)
 				&m->mlx.endian);
 	if (!m->mlx.mlx || !m->mlx.win || !m->mlx.img || !m->mlx.ptr)
 		return (FAIL);
+	normalize_normals();
 	if (start_hooks() == FAIL)
 		return (FAIL);
 	printf("%s\n", mini()->file_name);
@@ -29,7 +45,7 @@ int	main(int ac, char **av)
 		quit(ERR_PARSE, FAIL);
 	if (initializer() == FAIL)
 		quit(ERR_INITIALIZE, FAIL);
-	if (draw() == FAIL)
+	if (render() == FAIL)
 		quit(ERR_DRAW, FAIL);
 	/*
 	t_list *lst = mini()->objs;

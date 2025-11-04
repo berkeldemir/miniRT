@@ -14,12 +14,12 @@ MLXFLAGS   = -L$(MLXPATH) -lmlx -lXext -lX11 -lm
 NAME       = miniRT
 SRCS       = $(GNLFILES) \
 			./src/main.c \
-			./src/draw.c \
 			./src/helpers.c \
 			./src/hooks.c \
 			./src/parser.c \
 			./src/parse_scene.c \
 			./src/parse_objects.c \
+			./src/render.c \
 			./src/rt_converters.c \
 			./src/rt_utils.c \
 			./src/v3_helpers.c \
