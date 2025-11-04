@@ -80,10 +80,11 @@ typedef struct	s_camera
 	t_bool	isset;
 	t_vec3	coords;
 	t_vec3	normal; // [-1,1] for each x,y,z.
-	int		h_degree; // [0,180] A.K.A. "FOV".
-	t_vec3  fwd; // new
-    t_vec3  right; // new
-    t_vec3  up; // new
+	int		h_degree; // [0,180] A.K.A. "fwd".
+	t_vec3	fwd; // new
+	t_vec3	right; // new
+	t_vec3	up; // new
+	t_vec3	viewport;
 }	t_camera;
 
 typedef struct	s_light
@@ -127,6 +128,14 @@ typedef struct	s_obj
 	double	height;
 	t_color	color;
 }	t_obj;
+
+typedef struct	s_hit
+{
+	double	dist; // origin'den çarpma noktasına uzaklık
+	t_vec3	point; // çarpma noktası
+	t_vec3	normal; // çarpma noktası ve object'e göre normal
+	t_obj	*obj; // çarpılan objenin adresi
+}	t_hit;
 
 typedef struct	s_mlx
 {

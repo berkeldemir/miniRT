@@ -41,7 +41,7 @@ int	parse_camera(char ***tokens)
 	printf("normal: %f\t%f\t%f\n", mini()->c.normal.x, mini()->c.normal.y, mini()->c.normal.z);
 	if (rt_atoi(tokens[0][3], 0, 180, &mini()->c.h_degree) == FAIL)
 		return (FAIL);
-	printf("FOV    : %i\n", mini()->c.h_degree);
+	printf("fwd    : %i\n", mini()->c.h_degree);
 	mini()->c.isset = TRUE;
 	free_split(*tokens);
 	return (SUCCESS);
