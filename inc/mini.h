@@ -56,6 +56,16 @@ typedef struct	s_ray
 	t_vec3	direction;
 }	t_ray;
 
+typedef struct	s_quad
+{
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
+	double	t1;
+	double	t2;
+}	t_quad;
+
 typedef union u_color
 {
 	uint32_t	value;
@@ -200,5 +210,9 @@ t_vec3  v3_calc2(t_vec3 a, char operation, t_vec3 b);
 double	v3_calc2_dotprod(t_vec3 a, t_vec3 b);
 t_vec3	v3_calc_normalize(t_vec3 a);
 t_vec3	v3_calc2_cross(t_vec3 a, t_vec3 b);
+
+// intersect.c
+void	intersect_sphere(t_ray *ray, t_obj *obj, t_hit *best_hit);
+void	intersect_plane(t_ray *ray, t_obj *obj, t_hit *best_hit);
 
 #endif

@@ -28,13 +28,40 @@ static t_ray	generate_ray_from_pixel(int x, int y)
 	return (ray);
 }
 
+static t_hit	get_hit_record(t_ray *ray)
+{
+	t_list	*objs;	
+	t_obj	*obj;
+	t_hit	best_hit;
+	
+	best_hit.dist = DBL_MAX;
+	best_hit.obj = NULL;
+	objs = mini()->objs;
+	while (objs)
+	{
+		obj = objs->content;
+		if (obj->type == SPHERE)
+			intersect_sphere(ray, obj, &best_hit);
+		else if (obj->type == PLANE)
+			intersect_plane(ray, obj, &best_hit);
+		/*else if (obj->type == CYLINDER)
+			; //intersect_cylinder(ray, obj, &best_hit);*/
+		objs = objs->next;
+	}
+	return (best_hit);
+}
+
 static unsigned int	calculate_pixel_color(int x, int y)
 {
 	t_ray	ray;
+	t_hit	hit;
 
 	ray = generate_ray_from_pixel(x, y);
-	(void)ray;
-	/*
+	hit = get_hit_record(&ray);
+
+	if (hit.dist < DBL_MAX)
+		return (hit.obj->color.value);
+	
 	double	fx = (double)x / W;
 	double	fy = (double)y / H;
 
@@ -43,8 +70,7 @@ static unsigned int	calculate_pixel_color(int x, int y)
 	unsigned char b = (unsigned char)((cos(fabs(fx - fy) * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
 
 	return (r << 16) | (g << 8) | b;
-	*/
-	return(0x000000);
+	// return(0x000000); // Background is the gradient now.
 }
 
 void	setup_camera_basis(void)

@@ -16,6 +16,7 @@ SRCS       = $(GNLFILES) \
 			./src/main.c \
 			./src/helpers.c \
 			./src/hooks.c \
+			./src/intersect.c \
 			./src/parser.c \
 			./src/parse_scene.c \
 			./src/parse_objects.c \
