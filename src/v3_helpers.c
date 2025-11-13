@@ -18,6 +18,9 @@ t_vec3	v3_calc2(t_vec3 a, char operation, t_vec3 b)
 {
 	t_vec3	new;
 
+	new.x = 0.0;
+	new.y = 0.0;
+	new.z = 0.0;
 	if (operation == '+')
 	{
 		new.x = a.x + b.x;

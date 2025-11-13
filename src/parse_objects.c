@@ -5,13 +5,15 @@ int	parse_sphere(char ***tokens)
 	t_obj	*obj;
 
 	printf("--> SPHERE <--\n");
+	if (!tokens || !*tokens || !(*tokens)[1] || !(*tokens)[2] || !(*tokens)[3])
+		return (FAIL);
 	obj = ft_calloc(sizeof(t_obj), 1);
 	if (!obj)
 		return (FAIL);
 	obj->type = SPHERE;
-	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || \
-		rt_atod(tokens[0][2], 0.0, 999999.0, &obj->diameter) == FAIL || \
-		rt_color(&obj->color, tokens[0][3]) == FAIL)
+	if (rt_coords(&obj->coords, (*tokens)[1], FALSE) == FAIL || \
+		rt_atod((*tokens)[2], 0.0, 999999.0, &obj->diameter) == FAIL || \
+		rt_color(&obj->color, (*tokens)[3]) == FAIL)
 		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
 	/*printf("Type   : %c\n", obj->type);
@@ -28,13 +30,15 @@ int	parse_plane(char ***tokens)
 	t_obj	*obj;
 
 	printf("--> PLANE <--\n");
+	if (!tokens || !*tokens || !(*tokens)[1] || !(*tokens)[2] || !(*tokens)[3])
+		return (FAIL);
 	obj = ft_calloc(sizeof(t_obj), 1);
 	if (!obj)
 		return (FAIL);
 	obj->type = PLANE;
-	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || \
-		rt_coords(&obj->normal, tokens[0][2], TRUE) == FAIL || \
-		rt_color(&obj->color, tokens[0][3]) == FAIL)
+	if (rt_coords(&obj->coords, (*tokens)[1], FALSE) == FAIL || \
+		rt_coords(&obj->normal, (*tokens)[2], TRUE) == FAIL || \
+		rt_color(&obj->color, (*tokens)[3]) == FAIL)
 		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
 	/*printf("Type   : %c\n", obj->type);
@@ -51,15 +55,17 @@ int	parse_cylinder(char ***tokens)
 	t_obj	*obj;
 
 	printf("--> CYLINDER <--\n");
+	if (!tokens || !*tokens || !(*tokens)[1] || !(*tokens)[2] || !(*tokens)[3] || !(*tokens)[4] || !(*tokens)[5])
+		return (FAIL);
 	obj = ft_calloc(sizeof(t_obj), 1);
 	if (!obj)
 		return (FAIL);
 	obj->type = CYLINDER;
-	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || 
-		rt_coords(&obj->normal, tokens[0][2], TRUE) == FAIL || \
-		rt_atod(tokens[0][3], 0.0, 999999.0, &obj->diameter) == FAIL || \
-		rt_atod(tokens[0][4], 0.0, 999999.0, &obj->height) == FAIL || \
-		rt_color(&obj->color, tokens[0][5]) == FAIL)
+	if (rt_coords(&obj->coords, (*tokens)[1], FALSE) == FAIL || 
+		rt_coords(&obj->normal, (*tokens)[2], TRUE) == FAIL || \
+		rt_atod((*tokens)[3], 0.0, 999999.0, &obj->diameter) == FAIL || \
+		rt_atod((*tokens)[4], 0.0, 999999.0, &obj->height) == FAIL || \
+		rt_color(&obj->color, (*tokens)[5]) == FAIL)
 		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
 	/*printf("Type   : %c\n", obj->type);

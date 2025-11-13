@@ -30,7 +30,7 @@ void	intersect_sphere(t_ray *ray, t_obj *obj, t_hit *best_hit)
 	{
 		best_hit->dist = t;
 		best_hit->obj = obj;
-		// P = O + (D * t)
+		// p = O + (d * t)
 		best_hit->point = v3_calc2(ray->origin, '+', \
 		v3_calc2(ray->direction, '*', (t_vec3){t, t, t}));
 		// Kürenin normali = (Çarpma Noktası - Kürenin Merkezi)
@@ -65,8 +65,46 @@ void	intersect_plane(t_ray *ray, t_obj *obj, t_hit *best_hit)
 			best_hit->normal = obj->normal;
 	}
 }
+// Silindirin eksenine dik vektörlerin çarpımı ****
 
-/*void	intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit)
+void	intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit)
 {
+	t_vec3	oc;
+	t_vec3	ray_x_axis;
+	t_vec3	oc_x_axis;
+	t_quad	q;
+	double	t;
+	double	radius;
+	double	h;
+	t_vec3	hit_point;
+	double	projection;
+	t_vec3	temp;
 
-}*/
+	oc = v3_calc2(ray->origin, '-', obj->coords);
+	ray_x_axis = v3_calc2_cross(ray->direction, obj->normal);
+	oc_x_axis = v3_calc2_cross(oc, obj->normal);
+	radius = obj->diameter / 2.0;
+	q.a = v3_calc2_dotprod(ray_x_axis, ray_x_axis);
+	q.b = 2.0 * v3_calc2_dotprod(ray_x_axis, oc_x_axis);
+	q.c = v3_calc2_dotprod(oc_x_axis, oc_x_axis) - (radius * radius);
+	t = solve_quad_find_t(&q);
+	if (t > 0.0001)
+	{
+		hit_point = v3_calc2(ray->origin, '+', \
+			v3_calc2(ray->direction, '*', (t_vec3){t, t, t}));
+		temp = v3_calc2(hit_point, '-', obj->coords);
+		projection = v3_calc2_dotprod(temp, obj->normal);
+		h = obj->height / 2.0;
+		if (projection >= -h && projection <= h && t < best_hit->dist)
+		{
+			best_hit->dist = t;
+			best_hit->obj = obj;
+			best_hit->point = hit_point;
+			temp = v3_calc2(hit_point, '-', obj->coords);
+			temp = v3_calc2(temp, '-', \
+				v3_calc2(obj->normal, '*', \
+					(t_vec3){projection, projection, projection}));
+			best_hit->normal = v3_calc_normalize(temp);
+		}
+	}
+}

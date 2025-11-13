@@ -44,11 +44,52 @@ static t_hit	get_hit_record(t_ray *ray)
 			intersect_sphere(ray, obj, &best_hit);
 		else if (obj->type == PLANE)
 			intersect_plane(ray, obj, &best_hit);
-		/*else if (obj->type == CYLINDER)
-			; //intersect_cylinder(ray, obj, &best_hit);*/
+		else if (obj->type == CYLINDER)
+			intersect_cylinder(ray, obj, &best_hit);
 		objs = objs->next;
 	}
 	return (best_hit);
+}
+
+// hesaolabilen ışık yoğunluğuna göre pixel rengini hesaplar
+// normmalize edilmiş normal ve ışık yönü vektörlerinin dot product'ını kullanır
+
+static unsigned int	calculate_lighting(t_hit *hit) 
+{
+	t_light	*light;
+	t_vec3	light_dir;
+	t_vec3	light_to_surface;
+	double	light_distance;
+	double	diffuse_intensity;
+	unsigned char r, g, b;
+	double	ambient_intensity;
+
+	light = &mini()->l;
+	ambient_intensity = mini()->a.ratio;
+	r = (unsigned char)(hit->obj->color.r * ambient_intensity);
+	g = (unsigned char)(hit->obj->color.g * ambient_intensity);
+	b = (unsigned char)(hit->obj->color.b * ambient_intensity);
+	if (light->isset == TRUE)
+	{
+		light_to_surface = v3_calc2(light->coords, '-', hit->point);
+		light_distance = sqrt(v3_calc2_dotprod(light_to_surface, light_to_surface));
+		if (light_distance > 0.0001)
+		{
+			light_dir = v3_calc_normalize(light_to_surface);
+			diffuse_intensity = v3_calc2_dotprod(hit->normal, light_dir);
+			if (diffuse_intensity < 0.0)
+				diffuse_intensity = 0.0;
+			diffuse_intensity *= light->brightness;
+			if (ambient_intensity + diffuse_intensity > 1.0)
+				diffuse_intensity = 1.0 - ambient_intensity;
+			
+			r = (unsigned char)(r + (hit->obj->color.r * diffuse_intensity));
+			g = (unsigned char)(g + (hit->obj->color.g * diffuse_intensity));
+			b = (unsigned char)(b + (hit->obj->color.b * diffuse_intensity));
+		}
+	}
+
+	return ((unsigned int)r << 16) | ((unsigned int)g << 8) | (unsigned int)b;
 }
 
 static unsigned int	calculate_pixel_color(int x, int y)
@@ -59,18 +100,9 @@ static unsigned int	calculate_pixel_color(int x, int y)
 	ray = generate_ray_from_pixel(x, y);
 	hit = get_hit_record(&ray);
 
-	if (hit.dist < DBL_MAX)
-		return (hit.obj->color.value);
-	
-	double	fx = (double)x / W;
-	double	fy = (double)y / H;
-
-	unsigned char r = (unsigned char)((sin(fx * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
-	unsigned char g = (unsigned char)((sin(fy * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
-	unsigned char b = (unsigned char)((cos(fabs(fx - fy) * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
-
-	return (r << 16) | (g << 8) | b;
-	// return(0x000000); // Background is the gradient now.
+	if (hit.dist < DBL_MAX && hit.obj != NULL)
+		return (calculate_lighting(&hit));
+	return (0x000000);
 }
 
 void	setup_camera_basis(void)
@@ -104,7 +136,7 @@ void	setup_viewport(void)
 int	render(void)
 {
 	void	*pixel;
-	int		x;
+	int		x; 
 	int		y;
 
 	setup_camera_basis();

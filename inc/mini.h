@@ -214,5 +214,6 @@ t_vec3	v3_calc2_cross(t_vec3 a, t_vec3 b);
 // intersect.c
 void	intersect_sphere(t_ray *ray, t_obj *obj, t_hit *best_hit);
 void	intersect_plane(t_ray *ray, t_obj *obj, t_hit *best_hit);
+void	intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit);
 
 #endif

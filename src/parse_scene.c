@@ -17,12 +17,14 @@ int	parse_ambient(char ***tokens)
 	if (mini()->a.isset == TRUE)
 		return (FAIL);
 	printf("\n--> AMBIENT LIGHT <--\n");
-	if (rt_atod(tokens[0][1], 0.0, 1.0, &mini()->a.ratio) == FAIL)
+	if (!tokens || !*tokens || !(*tokens)[1] || !(*tokens)[2])
 		return (FAIL);
 	printf("Ratio: %f\n", mini()->a.ratio);
-	if (rt_color(&mini()->a.color, tokens[0][2]) == FAIL)
+	if (rt_atod((*tokens)[1], 0.0, 1.0, &mini()->a.ratio) == FAIL)
 		return (FAIL);
 	printf("Color: %i\n", mini()->a.color.value);
+	if (rt_color(&mini()->a.color, (*tokens)[2]) == FAIL)
+		return (FAIL);
 	mini()->a.isset = TRUE;
 	free_split(*tokens);
 	return (SUCCESS);
@@ -33,13 +35,15 @@ int	parse_camera(char ***tokens)
 	if (mini()->c.isset == TRUE)
 		return (FAIL);
 	printf("\n--> CAMERA <--\n");
-	if (rt_coords(&mini()->c.coords, tokens[0][1], FALSE) == FAIL)
+	if (!tokens || !*tokens || !(*tokens)[1] || !(*tokens)[2] || !(*tokens)[3])
+		return (FAIL);
+	if (rt_coords(&mini()->c.coords, (*tokens)[1], FALSE) == FAIL)
 		return (FAIL);
 	printf("Coords : %f\t%f\t%f\n", mini()->c.coords.x, mini()->c.coords.y, mini()->c.coords.z);
-	if (rt_coords(&mini()->c.normal, tokens[0][2], TRUE) == FAIL)
+	if (rt_coords(&mini()->c.normal, (*tokens)[2], TRUE) == FAIL)
 		return (FAIL);
 	printf("normal: %f\t%f\t%f\n", mini()->c.normal.x, mini()->c.normal.y, mini()->c.normal.z);
-	if (rt_atoi(tokens[0][3], 0, 180, &mini()->c.h_degree) == FAIL)
+	if (rt_atoi((*tokens)[3], 0, 180, &mini()->c.h_degree) == FAIL)
 		return (FAIL);
 	printf("fwd    : %i\n", mini()->c.h_degree);
 	mini()->c.isset = TRUE;
@@ -52,15 +56,17 @@ int	parse_light(char ***tokens)
 	if (mini()->l.isset == TRUE)
 		return (FAIL);
 	printf("\n--> LIGHT <--\n");
-	if (rt_coords(&mini()->l.coords, tokens[0][1], FALSE) == FAIL)
+	if (!tokens || !*tokens || !(*tokens)[1] || !(*tokens)[2])
+		return (FAIL);
+	if (rt_coords(&mini()->l.coords, (*tokens)[1], FALSE) == FAIL)
 		return (FAIL);
 	printf("Coords: %f\t%f\t%f\n", mini()->l.coords.x, mini()->l.coords.y, mini()->l.coords.z);
-	if (rt_atod(tokens[0][2], 0.0, 1.0, &mini()->l.brightness) == FAIL)
+	if (rt_atod((*tokens)[2], 0.0, 1.0, &mini()->l.brightness) == FAIL)
 		return (FAIL);
 	printf("Brig..: %f\n", mini()->l.brightness);
-	if (tokens[0][3])
+	if ((*tokens)[3])
 	{
-		if (rt_color(&mini()->l.color, tokens[0][3]) == FAIL)
+		if (rt_color(&mini()->l.color, (*tokens)[3]) == FAIL)
 			return (FAIL);
 	}
 	else

@@ -27,7 +27,6 @@ void	free_split(char **split)
 	free(split);
 }
 
-
 static int	parse_input(char *line)
 {
 	char **tokens;
