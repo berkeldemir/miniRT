@@ -5,6 +5,20 @@ static int	keyboard_ctrls(int key, void *null)
 	(void)null;
 	if (key == XK_Escape || key == XK_Q || key == XK_q)
 		quit(MSG_OK, SUCCESS);
+	else if (key == XK_Up || key == XK_Down \
+	|| key == XK_Left || key == XK_Right)
+		move_camera(key);
+	else if (key == XK_u || key == XK_U \
+	|| key == XK_j || key == XK_J)
+		move_backandforth(key);
+	else if (key == XK_W || key == XK_w \
+	|| key == XK_A || key == XK_a \
+	|| key == XK_S || key == XK_s \
+	|| key == XK_D || key == XK_d)
+		move_rotate(key);
+	else
+		return (FAIL);
+	render();
 	return (SUCCESS);
 }
 

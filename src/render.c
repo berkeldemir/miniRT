@@ -1,5 +1,28 @@
 #include "../inc/mini.h"
 
+static t_hit	get_hit_record(t_ray *ray)
+{
+	t_list	*objs;	
+	t_obj	*obj;
+	t_hit	best_hit;
+	
+	best_hit.dist = DBL_MAX;
+	best_hit.obj = NULL;
+	objs = mini()->objs;
+	while (objs)
+	{
+		obj = objs->content;
+		if (obj->type == SPHERE)
+			intersect_sphere(ray, obj, &best_hit);
+		else if (obj->type == PLANE)
+			intersect_plane(ray, obj, &best_hit);
+		/*else if (obj->type == CYLINDER)
+			; //intersect_cylinder(ray, obj, &best_hit);*/
+		objs = objs->next;
+	}
+	return (best_hit);
+}
+
 static t_ray	generate_ray_from_pixel(int x, int y)
 {
 	t_ray	ray;
@@ -28,29 +51,6 @@ static t_ray	generate_ray_from_pixel(int x, int y)
 	return (ray);
 }
 
-static t_hit	get_hit_record(t_ray *ray)
-{
-	t_list	*objs;	
-	t_obj	*obj;
-	t_hit	best_hit;
-	
-	best_hit.dist = DBL_MAX;
-	best_hit.obj = NULL;
-	objs = mini()->objs;
-	while (objs)
-	{
-		obj = objs->content;
-		if (obj->type == SPHERE)
-			intersect_sphere(ray, obj, &best_hit);
-		else if (obj->type == PLANE)
-			intersect_plane(ray, obj, &best_hit);
-		/*else if (obj->type == CYLINDER)
-			; //intersect_cylinder(ray, obj, &best_hit);*/
-		objs = objs->next;
-	}
-	return (best_hit);
-}
-
 static unsigned int	calculate_pixel_color(int x, int y)
 {
 	t_ray	ray;
@@ -60,23 +60,24 @@ static unsigned int	calculate_pixel_color(int x, int y)
 	hit = get_hit_record(&ray);
 
 	if (hit.dist < DBL_MAX)
-		return (hit.obj->color.value);
+		return (apply_light(hit));
 	
-	double	fx = (double)x / W;
+	/*double	fx = (double)x / W;
 	double	fy = (double)y / H;
 
 	unsigned char r = (unsigned char)((sin(fx * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
 	unsigned char g = (unsigned char)((sin(fy * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
 	unsigned char b = (unsigned char)((cos(fabs(fx - fy) * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
 
-	return (r << 16) | (g << 8) | b;
-	// return(0x000000); // Background is the gradient now.
+	return (r << 16) | (g << 8) | b;*/
+	return(0x000000);
 }
 
-void	setup_camera_basis(void)
+void	setup_camera_basis_and_viewport(void)
 {
 	t_vec3		w_up;
 	t_camera	*c;
+	double		h_degree_radiant;
 
 	c = &mini()->c;
 	c->fwd = c->normal;
@@ -87,13 +88,8 @@ void	setup_camera_basis(void)
 		w_up = v3_new(0.0, 1.0, 0.0);
 	c->right = v3_calc_normalize(v3_calc2_cross(w_up, c->fwd));
 	c->up = v3_calc_normalize(v3_calc2_cross(c->fwd, c->right));
-	return ;
-}
 
-void	setup_viewport(void)
-{
-	double	h_degree_radiant;
-
+	// Viewport
 	h_degree_radiant = mini()->c.h_degree * (3.1415 / 180.0) / 2.0;
 	mini()->c.viewport.y = 2.0 * tan(h_degree_radiant);
 	mini()->c.viewport.x = mini()->c.viewport.y * (WD / HD);
@@ -107,21 +103,17 @@ int	render(void)
 	int		x;
 	int		y;
 
-	setup_camera_basis();
-	setup_viewport();
-	x = 0;
-	while (x < W)
+	setup_camera_basis_and_viewport();
+	x = -1;
+	while (++x < W)
 	{
-		y = 0;
-		while (y < H)
+		y = -1;
+		while (++y < H)
 		{
-			pixel = mini()->mlx.ptr + \
-			(y * mini()->mlx.sizeline) + \
+			pixel = mini()->mlx.ptr + (y * mini()->mlx.sizeline) + \
 			(x * (mini()->mlx.bpp / 8));
-			*(unsigned int *)pixel = calculate_pixel_color(x, y);
-			y++;
+			*(unsigned int *)pixel = calculate_pixel_color(x, y++);
 		}
-		x++;
 	}
 	mlx_put_image_to_window(\
 		mini()->mlx.mlx, \
