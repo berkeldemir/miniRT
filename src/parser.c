@@ -37,6 +37,8 @@ static int	parse_input(char *line)
 	tokens = ft_split(line, ' ');
 	if (!tokens || !tokens[0])
 		return (FAIL);
+	else if (ft_strncmp(tokens[0], "#", 1) == 0)
+		return (free(tokens), printf("COMMENTLINE\n"), SUCCESS);
 	else if (ft_strncmp(tokens[0], "A", 1) == 0)
 		return (parse_ambient(&tokens));
 	else if (ft_strncmp(tokens[0], "C", 1) == 0)

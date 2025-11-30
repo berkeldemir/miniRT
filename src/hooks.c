@@ -16,6 +16,8 @@ static int	keyboard_ctrls(int key, void *null)
 	|| key == XK_S || key == XK_s \
 	|| key == XK_D || key == XK_d)
 		move_rotate(key);
+	else if (key == XK_R || key == XK_r)
+		parser();
 	else
 		return (FAIL);
 	render();
