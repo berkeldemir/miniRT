@@ -112,7 +112,7 @@ int	render(void)
 		{
 			pixel = mini()->mlx.ptr + (y * mini()->mlx.sizeline) + \
 			(x * (mini()->mlx.bpp / 8));
-			*(unsigned int *)pixel = calculate_pixel_color(x, y++);
+			*(unsigned int *)pixel = calculate_pixel_color(x, y);
 		}
 	}
 	mlx_put_image_to_window(\
