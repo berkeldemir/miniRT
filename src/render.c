@@ -16,8 +16,8 @@ static t_hit	get_hit_record(t_ray *ray)
 			intersect_sphere(ray, obj, &best_hit);
 		else if (obj->type == PLANE)
 			intersect_plane(ray, obj, &best_hit);
-		/*else if (obj->type == CYLINDER)
-			; //intersect_cylinder(ray, obj, &best_hit);*/
+		else if (obj->type == CYLINDER)
+			intersect_cylinder(ray, obj, &best_hit);
 		objs = objs->next;
 	}
 	return (best_hit);

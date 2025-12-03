@@ -16,6 +16,7 @@ SRCS       = $(GNLFILES) \
 			./src/main.c \
 			./src/helpers.c \
 			./src/hooks.c \
+			./src/intersect_cy.c \
 			./src/intersect.c \
 			./src/lights.c \
 			./src/parser.c \
