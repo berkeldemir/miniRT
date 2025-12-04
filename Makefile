@@ -14,13 +14,14 @@ MLXFLAGS   = -L$(MLXPATH) -lmlx -lXext -lX11 -lm
 NAME       = miniRT
 SRCS       = $(GNLFILES) \
 			./src/main.c \
+			./src/camera_moves.c \
 			./src/helpers.c \
 			./src/hooks.c \
 			./src/intersect_cy.c \
 			./src/intersect.c \
 			./src/lights.c \
+			./src/object_moves.c \
 			./src/parser.c \
-			./src/move.c \
 			./src/parse_objects.c \
 			./src/parse_scene.c \
 			./src/render.c \
@@ -33,7 +34,7 @@ OBJS       = $(SRCS:.c=.o)
 all: libft $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLXFLAGS) $(LIBFTFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLXFLAGS) $(LIBFTFLAGS) -g
 
 mlx:
 	@make -C $(MLXPATH)

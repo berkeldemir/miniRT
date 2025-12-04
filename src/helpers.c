@@ -13,6 +13,23 @@ t_mini	*mini(void)
 	return (info);
 }
 
+t_obj	*state(char getset, t_obj *obj)
+{
+	static t_obj	*current_state = NULL;
+
+	if (getset == GET)
+		return (current_state);
+	else if (getset == SET)
+	{
+		current_state = obj;
+		if (obj == NULL)
+			printf("STATE UPDATED: NULL\n");
+		else
+			printf("STATE UPDATED: %c\n", obj->type);
+	}
+	return (NULL);
+}
+
 int	arg_control(int ac, char **av)
 {
 	int	i;

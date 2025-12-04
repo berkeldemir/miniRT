@@ -69,7 +69,7 @@ void	intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit)
 		t = -1.0;
 		if (q.t1 > 0.0001 && check_height(obj, ray, q.t1, &m) == SUCCESS)
 			t = q.t1;
-		else if (q.t2 > 0.0001 && check_height(obj, ray, q.t2, &m))
+		else if (q.t2 > 0.0001 && check_height(obj, ray, q.t2, &m) == SUCCESS)
 			t = q.t2;
 		if (t > 0.0001 && t < best_hit->dist)
 		{

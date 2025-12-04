@@ -1,6 +1,6 @@
 #include "../inc/mini.h"
 
-static t_hit	get_hit_record(t_ray *ray)
+t_hit	get_hit_record(t_ray *ray)
 {
 	t_list	*objs;	
 	t_obj	*obj;
@@ -23,7 +23,7 @@ static t_hit	get_hit_record(t_ray *ray)
 	return (best_hit);
 }
 
-static t_ray	generate_ray_from_pixel(int x, int y)
+t_ray	generate_ray_from_pixel(int x, int y)
 {
 	t_ray	ray;
 	t_vec3	remap;

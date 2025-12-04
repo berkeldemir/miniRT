@@ -16,6 +16,9 @@
 # define FAIL 1
 # define SUCCESS 0
 
+# define GET 0
+# define SET 1
+
 # define COLOR_RED "\e[0;101m"
 # define COLOR_RESET "\e[0m"
 
@@ -32,6 +35,8 @@
 # define WD 800.00
 # define HD 600.00
 # define TITLE "miniRT"
+# define MOVE_SPEED 1
+# define ROTATE_SPEED 0.1
 
 # define SPHERE 's'
 # define PLANE 'p'
@@ -171,11 +176,14 @@ typedef struct	s_mini
 
 char		*get_next_line(int fd);
 
-// draw.c
+// render.c
 int			render(void);
+t_hit		get_hit_record(t_ray *ray);
+t_ray		generate_ray_from_pixel(int x, int y);
 
 // helpers.c
 t_mini		*mini(void);
+t_obj		*state(char getset, t_obj *obj);
 int			arg_control(int ac, char **av);
 void		quit(char *msg, int retval);
 
@@ -205,6 +213,10 @@ int			rt_color(t_color *ptr, char *color);
 int			rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
 t_vec3		v3_new(double x, double y, double z);
 
+// object_moves.c
+void	rotate_object(int key);
+void	move_object(int key);
+
 // v3_helpers.c
 t_vec3 		v3_calc2(t_vec3 a, char operation, t_vec3 b);
 double		v3_calc2_dotprod(t_vec3 a, t_vec3 b);
@@ -221,9 +233,8 @@ void		intersect_plane(t_ray *ray, t_obj *obj, t_hit *best_hit);
 // lights.c
 uint32_t    apply_light(t_hit hit);
 
-// move.c
-void		move_backandforth(int key);
+// camera_moves.c
 void		move_camera(int key);
-void		move_rotate(int key);
+void		rotate_camera(int key);
 
 #endif

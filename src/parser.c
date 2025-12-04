@@ -101,5 +101,5 @@ int	parser(void)
 		mini()->c.isset == FALSE || \
 		mini()->l.isset == FALSE)
 		return (FAIL);
-	return (SUCCESS);
+	return (state(SET, NULL), SUCCESS);
 }
