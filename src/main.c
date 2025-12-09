@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 13:50:58 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 15:24:00 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:51:42 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,5 @@ int	main(int ac, char **av)
 		quit(ERR_DRAW, FAIL);
 	else
 		put_img_to_win();
-	/*
-	t_list *lst = mini()->objs;
-	int		i = 1;
-	while (lst)
-	{
-		t_obj	*obj = ((t_obj *)lst->content);
-		printf("OBJECT %i\n", i);
-		printf("Type     : %c\n", obj->type);
-		printf("Coords   : %f\t%f\t%f\n", obj->coords.x, obj->coords.y, obj->coords.z);
-		printf("normal  : %f\t%f\t%f\n", obj->normal.x, obj->normal.y, obj->normal.z);
-		printf("Diameter : %f\n", obj->diameter);
-		printf("Height   : %f\n", obj->height);
-		printf("Color    : %d\n", obj->color.value);
-		printf("\n");
-		lst = lst->next;
-		i++;
-	}*/
 	mlx_loop(mini()->mlx.mlx);
 }

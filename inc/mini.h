@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:40:25 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 15:44:25 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 20:13:06 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ typedef struct s_mini
 	uint64_t	last_refresh;
 	int			render_res;
 	int			shadows;
+	t_bool		ctrl_hold;
 	t_ambient	a;
 	t_camera	c;
 	t_light		l;
@@ -187,6 +188,10 @@ t_obj		*state(char getset, t_obj *obj);
 int			arg_control(int ac, char **av);
 uint64_t	get_time(void);
 void		quit(char *msg, int retval);
+
+// hook_helpers.c
+int			destroy_notify(void *null);
+int			basic_controls(int key);
 
 // hooks.c
 int			start_hooks(void);

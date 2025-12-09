@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:18:35 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 14:20:33 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:56:49 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ void	intersect_sphere(t_ray *ray, t_obj *obj, t_hit *best_hit)
 	{
 		best_hit->dist = t;
 		best_hit->obj = obj;
-		// P = O + (D * t)
 		best_hit->point = v3_calc2(ray->origin, '+', \
 		v3_calc2(ray->direction, '*', (t_vec3){t, t, t}));
-		// Kürenin normali = (Çarpma Noktası - Kürenin Merkezi)
 		best_hit->normal = v3_calc_normalize(\
 		v3_calc2(best_hit->point, '-', obj->coords));
 	}
@@ -77,8 +75,3 @@ void	intersect_plane(t_ray *ray, t_obj *obj, t_hit *best_hit)
 			best_hit->normal = obj->normal;
 	}
 }
-
-/*void	intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit)
-{
-
-}*/

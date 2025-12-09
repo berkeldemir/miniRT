@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 13:52:46 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 15:51:41 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 20:11:11 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ static int	render_hook(void *null)
 	return (SUCCESS);
 }
 
+static int	key_release(int key, void *null)
+{
+	(void)null;
+	if (key == XK_Control_L || key == XK_Control_R)
+		mini()->ctrl_hold = FALSE;
+	return (SUCCESS);
+}
+
 static int	keyboard_ctrls(int key, void *null)
 {
 	(void)null;
-	if (key == XK_Escape || key == XK_Q || key == XK_q)
-		quit(MSG_OK, SUCCESS);
-	else if (key == XK_R || key == XK_r)
-		(ft_lstclear(&mini()->objs, free), parser());
-	else if ((key == XK_X || key == XK_x) && mini()->shadows == ON)
-		mini()->shadows = OFF;
-	else if ((key == XK_X || key == XK_x) && mini()->shadows == OFF)
-		mini()->shadows = ON;
-	else if (key == XK_C || key == XK_c)
-		return (state(SET, NULL), SUCCESS);
+	if (basic_controls(key) == TRUE)
+		return (SUCCESS);
 	else if (state(GET, NULL) == NULL)
 	{
 		if (camera_moves(key) == FAIL)
@@ -70,24 +70,14 @@ static int	mouse_ctrls(int key, int x, int y, void *null)
 			state(SET, NULL);
 		else
 			state(SET, best_hit.obj);
-		if (best_hit.obj == NULL)
-			printf("LEFT-CLICK! BEST HIT ON SPACE\n");
-		else
-			printf("LEFT-CLICK! BEST HIT TYPE: %c\n", best_hit.obj->type);
 	}
-	return (SUCCESS);
-}
-
-static int	destroy_notify(void *null)
-{
-	(void)null;
-	quit(MSG_OK, SUCCESS);
 	return (SUCCESS);
 }
 
 int	start_hooks(void)
 {
 	mlx_hook(mini()->mlx.win, KeyPress, KeyPressMask, keyboard_ctrls, NULL);
+	mlx_hook(mini()->mlx.win, KeyRelease, KeyReleaseMask, key_release, NULL);
 	mlx_hook(mini()->mlx.win, ButtonPress, ButtonPressMask, mouse_ctrls, NULL);
 	mlx_hook(mini()->mlx.win, DestroyNotify, 0, destroy_notify, NULL);
 	mlx_loop_hook(mini()->mlx.mlx, &render_hook, NULL);

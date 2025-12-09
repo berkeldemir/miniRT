@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:24:38 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 14:25:09 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:56:27 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ int	parse_sphere(char ***tokens)
 		rt_color(&obj->color, tokens[0][3]) == FAIL)
 		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
-	/*printf("Type   : %c\n", obj->type);
-	printf("Coords : %f\t%f\t%f\n", obj->coords.x,  obj->coords.y, obj->coords.z);
-	printf("normal: %f\t%f\t%f\n", obj->normal.x,  obj->normal.y, obj->normal.z);
-	printf("Diamet.: %f\n", obj->diameter);
-	printf("Height : %f\n\n", obj->height);*/
 	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
 	((t_obj *)(ft_lstlast(mini()->objs))->content)->height = -1;
 	return (SUCCESS);
@@ -50,11 +45,6 @@ int	parse_plane(char ***tokens)
 		rt_color(&obj->color, tokens[0][3]) == FAIL)
 		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
-	/*printf("Type   : %c\n", obj->type);
-	printf("Coords : %f\t%f\t%f\n", obj->coords.x,  obj->coords.y, obj->coords.z);
-	printf("normal: %f\t%f\t%f\n", obj->normal.x,  obj->normal.y, obj->normal.z);
-	printf("Diamet.: %f\n", obj->diameter);
-	printf("Height : %f\n\n", obj->height);*/
 	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
 	((t_obj *)(ft_lstlast(mini()->objs))->content)->height = -1;
 	((t_obj *)(ft_lstlast(mini()->objs))->content)->diameter = -1;
@@ -77,11 +67,6 @@ int	parse_cylinder(char ***tokens)
 		rt_color(&obj->color, tokens[0][5]) == FAIL)
 		return (free(obj), free_split(*tokens), FAIL);
 	free_split(*tokens);
-	/*printf("Type   : %c\n", obj->type);
-	printf("Coords : %f\t%f\t%f\n", obj->coords.x,  obj->coords.y, obj->coords.z);
-	printf("normal: %f\t%f\t%f\n", obj->normal.x,  obj->normal.y, obj->normal.z);
-	printf("Diamet.: %f\n", obj->diameter);
-	printf("Height : %f\n\n", obj->height);*/
 	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
 	return (SUCCESS);
 }

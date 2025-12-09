@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:27:52 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 14:49:17 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:45:38 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	setup_camera_basis_and_viewport(void)
 	return ;
 }
 
-static void	render_pixel_low_quality(unsigned int color, unsigned int *pixel)
+static void	render_low_quality(unsigned int color, unsigned int *pixel)
 {
 	int	i;
 	int	j;
@@ -74,21 +74,21 @@ int	render(void)
 	int				y;
 
 	setup_camera_basis_and_viewport();
-	x = 0;
-	while (x < W)
+	y = 0;
+	while (y < H)
 	{
-		y = 0;
-		while (y < H)
+		x = 0;
+		while (x < W)
 		{
 			pixel = mini()->mlx.ptr + (y * mini()->mlx.sizeline) + \
 			(x * (mini()->mlx.bpp / 8));
 			color = calculate_pixel_color(x, y);
 			*(unsigned int *)pixel = color;
-			if (mini()->render_res != 1)
-				render_pixel_low_quality(color, (unsigned int *)pixel);
-			y += mini()->render_res;
+			if (mini()->render_res == LOW_RES)
+				render_low_quality(color, (unsigned int *)pixel);
+			x += mini()->render_res;
 		}
-		x += mini()->render_res;
+		y += mini()->render_res;
 	}
 	return (SUCCESS);
 }

@@ -6,13 +6,13 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:20:54 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 15:24:14 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:50:31 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/mini.h"
 
-static unsigned char	clamp(double value)
+static unsigned char	compress(double value)
 {
 	if (value > 255.0)
 		return (255);
@@ -44,9 +44,12 @@ static t_color	get_final_color(t_color color, double intensity)
 {
 	t_color	res;
 
-	res.r = clamp(color.r * intensity);
-	res.g = clamp(color.g * intensity);
-	res.b = clamp(color.b * intensity);
+	res.r = compress(color.r * \
+		(intensity + (mini()->a.ratio * mini()->a.color.r / 255)));
+	res.g = compress(color.g * \
+		(intensity + (mini()->a.ratio * mini()->a.color.g / 255)));
+	res.b = compress(color.b * \
+		(intensity + (mini()->a.ratio * mini()->a.color.b / 255)));
 	return (res);
 }
 
@@ -54,7 +57,6 @@ uint32_t	apply_light(t_hit hit)
 {
 	t_vec3	l_dir;
 	double	diffuse;
-	double	total_intensity;
 
 	l_dir = v3_calc_normalize(v3_calc2(mini()->l.coords, '-', hit.point));
 	diffuse = v3_calc2_dotprod(hit.normal, l_dir);
@@ -63,6 +65,5 @@ uint32_t	apply_light(t_hit hit)
 	if (mini()->shadows == ON && is_in_shadow(hit) == TRUE)
 		diffuse = 0.0;
 	diffuse = diffuse * mini()->l.brightness;
-	total_intensity = mini()->a.ratio + diffuse;
-	return (get_final_color(hit.obj->color, total_intensity).value);
+	return (get_final_color(hit.obj->color, diffuse).value);
 }

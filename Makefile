@@ -17,6 +17,7 @@ SRCS       = $(GNLFILES) \
 			./src/camera_moves.c \
 			./src/helpers.c \
 			./src/hits_and_rays.c \
+			./src/hook_helpers.c \
 			./src/hooks.c \
 			./src/intersect_cy.c \
 			./src/intersect.c \
