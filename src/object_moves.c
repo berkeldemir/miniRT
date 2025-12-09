@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object_moves.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 14:23:06 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 14:24:13 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/mini.h"
 
 static t_vec3	rotate_util(t_vec3	vector, double angle)
@@ -13,16 +25,15 @@ static t_vec3	rotate_util(t_vec3	vector, double angle)
 	cos_vector = (t_vec3){cos(angle), cos(angle), cos(angle)};
 	sin_vector = (t_vec3){sin(angle), sin(angle), sin(angle)};
 	scalar_vector = (t_vec3){\
-	v3_calc2_dotprod(obj->normal, vector) * (1.0 - cos(angle)),
-	v3_calc2_dotprod(obj->normal, vector) * (1.0 - cos(angle)),
-	v3_calc2_dotprod(obj->normal, vector) * (1.0 - cos(angle)),
+		v3_calc2_dotprod(obj->normal, vector) * (1.0 - cos(angle)),
+		v3_calc2_dotprod(obj->normal, vector) * (1.0 - cos(angle)),
+		v3_calc2_dotprod(obj->normal, vector) * (1.0 - cos(angle)),
 	};
 	new = v3_calc2(obj->normal, '*', cos_vector);
 	new = v3_calc2(new, '+', \
-	v3_calc2(v3_calc2_cross(obj->normal, vector), '*', sin_vector));
+		v3_calc2(v3_calc2_cross(obj->normal, vector), '*', sin_vector));
 	new = v3_calc2(new, '+', \
-	v3_calc2(obj->normal, '*', scalar_vector)
-	);
+		v3_calc2(obj->normal, '*', scalar_vector));
 	return (v3_calc_normalize(new));
 }
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 14:40:25 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 14:44:13 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINI_H
 # define MINI_H
 
@@ -55,20 +67,20 @@ typedef enum e_bool
 	TRUE
 }	t_bool;
 
-typedef struct	s_vec3
+typedef struct s_vec3
 {
 	double	x;
 	double	y;
 	double	z;
 }	t_vec3;
 
-typedef struct	s_ray
+typedef struct s_ray
 {
 	t_vec3	origin;
 	t_vec3	direction;
 }	t_ray;
 
-typedef struct	s_quad
+typedef struct s_quad
 {
 	double	a;
 	double	b;
@@ -90,88 +102,63 @@ typedef union u_color
 	};
 }	t_color;
 
-typedef struct	s_ambient
+typedef struct s_ambient
 {
 	t_bool	isset;
-	double	ratio; // [0.0,1.0]
+	double	ratio;
 	t_color	color;
 }	t_ambient;
 
-typedef struct	s_camera
+typedef struct s_camera
 {
 	t_bool	isset;
 	t_vec3	coords;
-	t_vec3	normal; // [-1,1] for each x,y,z.
-	int		h_degree; // [0,180] A.K.A. "fwd".
-	t_vec3	fwd; // new
-	t_vec3	right; // new
-	t_vec3	up; // new
+	t_vec3	normal;
+	int		h_degree;
+	t_vec3	fwd;
+	t_vec3	right;
+	t_vec3	up;
 	t_vec3	viewport;
 }	t_camera;
 
-typedef struct	s_light
+typedef struct s_light
 {
 	t_bool	isset;
 	t_vec3	coords;
-	double	brightness; // [0.0, 1.0]
+	double	brightness;
 	t_color	color;
 }	t_light;
 
-/*
-typedef struct	s_sphere
-{
-	t_vec3	coords;
-	double	diameter;
-	t_color	color;
-}	t_sphere;
-
-typedef struct	s_plane
-{
-	t_vec3	coords;
-	t_vec3	normal; // [-1, 1] for each x,y,z.
-	t_color	color;
-}	t_plane;
-
-typedef struct	s_cylinder
-{
-	t_vec3	coords;
-	t_vec3	normal; // [-1, 1] for each x,y,z.
-	double	diameter;
-	double	height;
-}	t_cylinder;
-*/
-
-typedef struct	s_obj
+typedef struct s_obj
 {
 	char	type;
 	t_vec3	coords;
-	t_vec3	normal; // [-1, 1] for each x,y,z.
+	t_vec3	normal;
 	double	diameter;
 	double	height;
 	t_color	color;
 }	t_obj;
 
-typedef struct	s_hit
+typedef struct s_hit
 {
-	double	dist; // origin'den çarpma noktasına uzaklık
-	t_vec3	point; // çarpma noktası
-	t_vec3	normal; // çarpma noktası ve object'e göre normal
-	t_obj	*obj; // çarpılan objenin adresi
+	double	dist;
+	t_vec3	point;
+	t_vec3	normal;
+	t_obj	*obj;
 }	t_hit;
 
-typedef struct	s_mlx
+typedef struct s_mlx
 {
 	void	*mlx;
 	void	*win;
 	void	*img;
 	void	*ptr;
-
 	int		bpp;
 	int		sizeline;
 	int		endian;
 }	t_mlx;
 
-typedef struct	s_mini
+typedef struct s_mini
 {
 	t_mlx		mlx;
 	char		*file_name;
@@ -225,30 +212,27 @@ int			rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
 t_vec3		v3_new(double x, double y, double z);
 
 // object_moves.c
-int	object_moves(int key);
+int			object_moves(int key);
 
 // v3_helpers.c
-t_vec3 		v3_calc2(t_vec3 a, char operation, t_vec3 b);
+t_vec3		v3_calc2(t_vec3 a, char operation, t_vec3 b);
 double		v3_calc2_dotprod(t_vec3 a, t_vec3 b);
 t_vec3		v3_calc_normalize(t_vec3 a);
 t_vec3		v3_calc2_cross(t_vec3 a, t_vec3 b);
 
 // intersect_cy.c
-void	intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit);
+void		intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit);
 
 // intersect.c
 void		intersect_sphere(t_ray *ray, t_obj *obj, t_hit *best_hit);
 void		intersect_plane(t_ray *ray, t_obj *obj, t_hit *best_hit);
 
 // lights.c
-uint32_t    apply_light(t_hit hit);
+uint32_t	apply_light(t_hit hit);
 
 // camera_moves.c
-int	camera_moves(int key);
+int			camera_moves(int key);
 
-
-
-
-void	put_img_to_win(void);
+void		put_img_to_win(void);
 
 #endif

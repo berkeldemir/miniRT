@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_objects.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 14:24:38 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 14:25:09 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/mini.h"
 
 int	parse_sphere(char ***tokens)
@@ -58,7 +70,7 @@ int	parse_cylinder(char ***tokens)
 	if (!obj)
 		return (FAIL);
 	obj->type = CYLINDER;
-	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || 
+	if (rt_coords(&obj->coords, tokens[0][1], FALSE) == FAIL || \
 		rt_coords(&obj->normal, tokens[0][2], TRUE) == FAIL || \
 		rt_atod(tokens[0][3], 0.0, 999999.0, &obj->diameter) == FAIL || \
 		rt_atod(tokens[0][4], 0.0, 999999.0, &obj->height) == FAIL || \

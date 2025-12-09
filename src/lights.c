@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lights.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 14:20:54 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 14:22:41 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/mini.h"
 
-static unsigned char    clamp(double value)
+static unsigned char	clamp(double value)
 {
 	if (value > 255.0)
 		return (255);
@@ -9,30 +21,26 @@ static unsigned char    clamp(double value)
 	return ((unsigned char)value);
 }
 
-static int  is_in_shadow(t_hit hit)
+static int	is_in_shadow(t_hit hit)
 {
-    t_ray   shadow_ray;
-    t_hit   shadow_hit;
-    t_vec3  light_dir;
-    double  len_sq;
+	t_ray	shadow_ray;
+	t_hit	shadow_hit;
+	t_vec3	light_dir;
+	double	len_sq;
 
-    light_dir = v3_calc2(mini()->l.coords, '-', hit.point);
-    
-    len_sq = v3_calc2_dotprod(light_dir, light_dir);
-    
-    shadow_ray.direction = v3_calc_normalize(light_dir);
-
-    shadow_ray.origin = v3_calc2(hit.point, '+', \
-        v3_calc2(hit.normal, '*', (t_vec3){0.01, 0.01, 0.01}));
-
-    shadow_hit = get_hit_record(&shadow_ray);
-
-    if (shadow_hit.dist < DBL_MAX && (shadow_hit.dist * shadow_hit.dist) < len_sq)
-        return (TRUE); // Yes, we are in shadow
-    return (FALSE); // No, clear path to light
+	light_dir = v3_calc2(mini()->l.coords, '-', hit.point);
+	len_sq = v3_calc2_dotprod(light_dir, light_dir);
+	shadow_ray.direction = v3_calc_normalize(light_dir);
+	shadow_ray.origin = v3_calc2(hit.point, '+', \
+		v3_calc2(hit.normal, '*', (t_vec3){0.01, 0.01, 0.01}));
+	shadow_hit = get_hit_record(&shadow_ray);
+	if (shadow_hit.dist < DBL_MAX \
+	&& (shadow_hit.dist * shadow_hit.dist) < len_sq)
+		return (TRUE);
+	return (FALSE);
 }
 
-static t_color  get_final_color(t_color color, double intensity)
+static t_color	get_final_color(t_color color, double intensity)
 {
 	t_color	res;
 

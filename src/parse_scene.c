@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_scene.c                                    :+:      :+:    :+:   */
+/*   parse_scene.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbayram <hbayram@student.42.fr>            +#+  +:+       +#+        */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 14:58:06 by hbayram           #+#    #+#             */
-/*   Updated: 2025/10/26 15:31:17 by hbayram          ###   ########.fr       */
+/*   Updated: 2025/12/09 14:27:33 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ int	parse_camera(char ***tokens)
 {
 	if (mini()->c.isset == TRUE)
 		return (FAIL);
-	printf("\n--> CAMERA <--\n");
+	//printf("\n--> CAMERA <--\n");
 	if (rt_coords(&mini()->c.coords, tokens[0][1], FALSE) == FAIL)
 		return (FAIL);
-	printf("Coords : %f\t%f\t%f\n", mini()->c.coords.x, mini()->c.coords.y, mini()->c.coords.z);
+	//printf("Coords : %f\t%f\t%f\n", mini()->c.coords.x, mini()->c.coords.y, mini()->c.coords.z);
 	if (rt_coords(&mini()->c.normal, tokens[0][2], TRUE) == FAIL)
 		return (FAIL);
-	printf("normal: %f\t%f\t%f\n", mini()->c.normal.x, mini()->c.normal.y, mini()->c.normal.z);
+	//printf("normal: %f\t%f\t%f\n", mini()->c.normal.x, mini()->c.normal.y, mini()->c.normal.z);
 	if (rt_atoi(tokens[0][3], 0, 180, &mini()->c.h_degree) == FAIL)
 		return (FAIL);
-	printf("fwd    : %i\n", mini()->c.h_degree);
+	//printf("fwd    : %i\n", mini()->c.h_degree);
 	mini()->c.isset = TRUE;
 	free_split(*tokens);
 	return (SUCCESS);

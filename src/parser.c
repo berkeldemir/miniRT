@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbayram <hbayram@student.42.fr>            +#+  +:+       +#+        */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 14:53:14 by hbayram           #+#    #+#             */
-/*   Updated: 2025/10/26 16:01:13 by hbayram          ###   ########.fr       */
+/*   Updated: 2025/12/09 14:26:36 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	if (!split)
 		return ;
@@ -27,10 +27,9 @@ void	free_split(char **split)
 	free(split);
 }
 
-
 static int	parse_input(char *line)
 {
-	char **tokens;
+	char	**tokens;
 
 	if (!line || !*line)
 		return (0);

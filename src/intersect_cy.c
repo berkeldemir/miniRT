@@ -1,34 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersect_cy.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 14:15:43 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 14:18:03 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/mini.h"
 
-static int  check_height(t_obj *obj, t_ray *ray, double t, double *m)
+static int	check_height(t_obj *obj, t_ray *ray, double t, double *m)
 {
-    t_vec3  p;
+	t_vec3	p;
 
-    // P = O + t*D
-    p = v3_calc2(ray->origin, '+', v3_calc2(ray->direction, '*', (t_vec3){t, t, t}));
-    
-    // Project P onto the axis (dot product)
-    // m = (P - Center) . Axis
-    *m = v3_calc2_dotprod(v3_calc2(p, '-', obj->coords), obj->normal);
+	// P = O + t*D
+	p = v3_calc2(ray->origin, '+', v3_calc2(ray->direction, '*', (t_vec3){t, t, t}));
+	
+	// Project P onto the axis (dot product)
+	// m = (P - Center) . Axis
+	*m = v3_calc2_dotprod(v3_calc2(p, '-', obj->coords), obj->normal);
 
-    // Check bounds (Assuming coords is the center)
-    if (*m >= -(obj->height / 2.0) && *m <= (obj->height / 2.0))
-        return (SUCCESS);
-    return (FAIL);
+	// Check bounds (Assuming coords is the center)
+	if (*m >= -(obj->height / 2.0) && *m <= (obj->height / 2.0))
+		return (SUCCESS);
+	return (FAIL);
 }
 
-static void check_cap(t_ray *ray, t_obj *obj, t_hit *best_hit, t_vec3 cap_center, t_vec3 cap_normal)
+static void	check_cap(t_ray *ray, t_obj *obj, t_hit *best_hit, t_vec3 cap_center, t_vec3 cap_normal)
 {
-	double  denom;
-	double  t;
-	t_vec3  p;
-	t_vec3  v;
-	double  r_sq;
+	double	denom;
+	double	t;
+	t_vec3	p;
+	t_vec3	v;
+	double	r_sq;
 
 	denom = v3_calc2_dotprod(ray->direction, cap_normal);
 	if (fabs(denom) < 1e-6) // Parallel to plane
 		return ;
-	
 	t = v3_calc2_dotprod(v3_calc2(cap_center, '-', ray->origin), cap_normal) / denom;
 	if (t < 0.0001 || t >= best_hit->dist)
 		return ;
@@ -56,12 +67,10 @@ void	intersect_cylinder(t_ray *ray, t_obj *obj, t_hit *best_hit)
 	oc = v3_calc2(ray->origin, '-', obj->coords);
 	cross_d_n = v3_calc2_cross(ray->direction, obj->normal);
 	cross_oc_n = v3_calc2_cross(oc, obj->normal);
-
 	q.a = v3_calc2_dotprod(cross_d_n, cross_d_n);
 	q.b = 2.0 * v3_calc2_dotprod(cross_d_n, cross_oc_n);
 	q.c = v3_calc2_dotprod(cross_oc_n, cross_oc_n) - ((obj->diameter / 2.0) * (obj->diameter / 2.0));
 	q.delta = (q.b * q.b) - (4 * q.a * q.c);
-	
 	if (q.delta >= 0)
 	{
 		q.t1 = (-q.b - sqrt(q.delta)) / (2.0 * q.a);

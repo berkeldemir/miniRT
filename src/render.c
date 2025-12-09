@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 14:27:52 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 14:34:09 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/mini.h"
 
 t_hit	get_hit_record(t_ray *ray)
@@ -5,7 +17,7 @@ t_hit	get_hit_record(t_ray *ray)
 	t_list	*objs;	
 	t_obj	*obj;
 	t_hit	best_hit;
-	
+
 	best_hit.dist = DBL_MAX;
 	best_hit.obj = NULL;
 	objs = mini()->objs;
@@ -27,9 +39,8 @@ t_ray	generate_ray_from_pixel(int x, int y)
 {
 	t_ray	ray;
 	t_vec3	remap;
-	t_vec3	dir; // direction
+	t_vec3	dir;
 
-	// Ray's starting point->camera coordinate.
 	ray.origin = mini()->c.coords;
 
 	// Imagine viewpoint as the center point is (0,0)
@@ -41,7 +52,6 @@ t_ray	generate_ray_from_pixel(int x, int y)
 	remap.x = ((2.0 * ((x + 0.5) / WD)) - 1.0) * (mini()->c.viewport.x / 2.0);
 	remap.y = (1.0 - (2.0 * ((y + 0.5) / HD))) * (mini()->c.viewport.y / 2.0);
 	remap.z = 0.0;
-
 	dir = mini()->c.fwd;
 	dir = v3_calc2(dir, '+', \
 		v3_calc2(mini()->c.right, '*', (t_vec3){remap.x, remap.x, remap.x}));
@@ -58,19 +68,9 @@ static unsigned int	calculate_pixel_color(int x, int y)
 
 	ray = generate_ray_from_pixel(x, y);
 	hit = get_hit_record(&ray);
-
 	if (hit.dist < DBL_MAX)
 		return (apply_light(hit));
-	
-	/*double	fx = (double)x / W;
-	double	fy = (double)y / H;
-
-	unsigned char r = (unsigned char)((sin(fx * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
-	unsigned char g = (unsigned char)((sin(fy * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
-	unsigned char b = (unsigned char)((cos(fabs(fx - fy) * 2.0 * 3.1415) * 0.5 + 0.5) * 255);
-
-	return (r << 16) | (g << 8) | b;*/
-	return(0x000000);
+	return (0x000000);
 }
 
 void	setup_camera_basis_and_viewport(void)
@@ -88,8 +88,6 @@ void	setup_camera_basis_and_viewport(void)
 		w_up = v3_new(0.0, 1.0, 0.0);
 	c->right = v3_calc_normalize(v3_calc2_cross(w_up, c->fwd));
 	c->up = v3_calc_normalize(v3_calc2_cross(c->fwd, c->right));
-
-	// Viewport
 	h_degree_radiant = mini()->c.h_degree * (3.1415 / 180.0) / 2.0;
 	mini()->c.viewport.y = 2.0 * tan(h_degree_radiant);
 	mini()->c.viewport.x = mini()->c.viewport.y * (WD / HD);
@@ -97,13 +95,13 @@ void	setup_camera_basis_and_viewport(void)
 	return ;
 }
 
-static void render_pixel_low_quality(unsigned int color, unsigned int *pixel)
+static void	render_pixel_low_quality(unsigned int color, unsigned int *pixel)
 {
 	int	i;
 	int	j;
 	int	sizeline;
 
-	sizeline = mini()->mlx.sizeline / 4; 
+	sizeline = mini()->mlx.sizeline / 4;
 	j = 0;
 	while (j < mini()->render_res)
 	{

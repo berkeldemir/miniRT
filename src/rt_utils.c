@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 14:33:14 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 14:33:24 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/mini.h"
 
 int	rt_color(t_color *ptr, char *color)
 {
-	// char *color format is "r,g,b"
 	char	**rgb;
-	
+
 	rgb = ft_split(color, ',');
 	if (!rgb)
 		return (FAIL);
@@ -22,10 +33,9 @@ int	rt_color(t_color *ptr, char *color)
 
 int	rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one)
 {
-	// char *coords format is "x,y,z"
 	char	**xyz;
 	double	limit;
-	
+
 	xyz = ft_split(coords, ',');
 	if (!xyz)
 		return (FAIL);
