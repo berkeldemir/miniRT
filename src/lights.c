@@ -9,6 +9,29 @@ static unsigned char    clamp(double value)
 	return ((unsigned char)value);
 }
 
+static int  is_in_shadow(t_hit hit)
+{
+    t_ray   shadow_ray;
+    t_hit   shadow_hit;
+    t_vec3  light_dir;
+    double  len_sq;
+
+    light_dir = v3_calc2(mini()->l.coords, '-', hit.point);
+    
+    len_sq = v3_calc2_dotprod(light_dir, light_dir);
+    
+    shadow_ray.direction = v3_calc_normalize(light_dir);
+
+    shadow_ray.origin = v3_calc2(hit.point, '+', \
+        v3_calc2(hit.normal, '*', (t_vec3){0.01, 0.01, 0.01}));
+
+    shadow_hit = get_hit_record(&shadow_ray);
+
+    if (shadow_hit.dist < DBL_MAX && (shadow_hit.dist * shadow_hit.dist) < len_sq)
+        return (TRUE); // Yes, we are in shadow
+    return (FALSE); // No, clear path to light
+}
+
 static t_color  get_final_color(t_color color, double intensity)
 {
 	t_color	res;
@@ -28,7 +51,9 @@ uint32_t	apply_light(t_hit hit)
 	l_dir = v3_calc_normalize(v3_calc2(mini()->l.coords, '-', hit.point));
 	diffuse = v3_calc2_dotprod(hit.normal, l_dir);
 	if (diffuse < 0)
-		diffuse = 0;
+		diffuse = 0.0;
+	if (is_in_shadow(hit) == TRUE)
+		diffuse = 0.0;
 	diffuse = diffuse * mini()->l.brightness;
 	total_intensity = mini()->a.ratio + diffuse;
 	return (get_final_color(hit.obj->color, total_intensity).value);

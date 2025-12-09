@@ -38,6 +38,8 @@ t_vec3	v3_calc2(t_vec3 a, char operation, t_vec3 b)
 	}
 	else if (operation == '/')
 		v3_calc2_divider(a, b, &new);
+	else
+		return ((t_vec3){0.0, 0.0, 0.0});
 	return (new);
 }
 

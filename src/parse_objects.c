@@ -20,6 +20,7 @@ int	parse_sphere(char ***tokens)
 	printf("Diamet.: %f\n", obj->diameter);
 	printf("Height : %f\n\n", obj->height);*/
 	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
+	((t_obj *)(ft_lstlast(mini()->objs))->content)->height = -1;
 	return (SUCCESS);
 }
 
@@ -43,6 +44,8 @@ int	parse_plane(char ***tokens)
 	printf("Diamet.: %f\n", obj->diameter);
 	printf("Height : %f\n\n", obj->height);*/
 	ft_lstadd_back(&mini()->objs, ft_lstnew(obj));
+	((t_obj *)(ft_lstlast(mini()->objs))->content)->height = -1;
+	((t_obj *)(ft_lstlast(mini()->objs))->content)->diameter = -1;
 	return (SUCCESS);
 }
 

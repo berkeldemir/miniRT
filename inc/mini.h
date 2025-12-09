@@ -35,7 +35,8 @@
 # define WD 800.00
 # define HD 600.00
 # define TITLE "miniRT"
-# define MOVE_SPEED 1
+# define RATIO 0.5
+# define MOVE_SPEED 1.0
 # define ROTATE_SPEED 0.1
 
 # define SPHERE 's'
