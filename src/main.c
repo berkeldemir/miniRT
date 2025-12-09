@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 13:50:58 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 13:51:11 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:24:00 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	initializer(void)
 	if (!m->mlx.mlx || !m->mlx.win || !m->mlx.img || !m->mlx.ptr)
 		return (FAIL);
 	normalize_normals();
-	m->is_fullscreen = FALSE;
+	m->shadows = ON;
 	if (start_hooks() == FAIL)
 		return (FAIL);
 	printf("%s\n", mini()->file_name);

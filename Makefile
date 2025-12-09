@@ -16,14 +16,15 @@ SRCS       = $(GNLFILES) \
 			./src/main.c \
 			./src/camera_moves.c \
 			./src/helpers.c \
+			./src/hits_and_rays.c \
 			./src/hooks.c \
 			./src/intersect_cy.c \
 			./src/intersect.c \
 			./src/lights.c \
 			./src/object_moves.c \
-			./src/parser.c \
 			./src/parse_objects.c \
 			./src/parse_scene.c \
+			./src/parser.c \
 			./src/render.c \
 			./src/rt_converters.c \
 			./src/rt_utils.c \

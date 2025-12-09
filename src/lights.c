@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:20:54 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 14:22:41 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:24:14 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ uint32_t	apply_light(t_hit hit)
 	diffuse = v3_calc2_dotprod(hit.normal, l_dir);
 	if (diffuse < 0)
 		diffuse = 0.0;
-	if (is_in_shadow(hit) == TRUE)
+	if (mini()->shadows == ON && is_in_shadow(hit) == TRUE)
 		diffuse = 0.0;
 	diffuse = diffuse * mini()->l.brightness;
 	total_intensity = mini()->a.ratio + diffuse;

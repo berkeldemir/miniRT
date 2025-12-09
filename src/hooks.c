@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 13:52:46 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 13:53:14 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:51:41 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ static int	keyboard_ctrls(int key, void *null)
 		quit(MSG_OK, SUCCESS);
 	else if (key == XK_R || key == XK_r)
 		(ft_lstclear(&mini()->objs, free), parser());
+	else if ((key == XK_X || key == XK_x) && mini()->shadows == ON)
+		mini()->shadows = OFF;
+	else if ((key == XK_X || key == XK_x) && mini()->shadows == OFF)
+		mini()->shadows = ON;
 	else if (key == XK_C || key == XK_c)
 		return (state(SET, NULL), SUCCESS);
 	else if (state(GET, NULL) == NULL)
@@ -49,9 +53,7 @@ static int	keyboard_ctrls(int key, void *null)
 	}
 	mini()->render_res = LOW_RES;
 	mini()->last_refresh = get_time();
-	render();
-	put_img_to_win();
-	return (SUCCESS);
+	return (render(), put_img_to_win(), SUCCESS);
 }
 
 static int	mouse_ctrls(int key, int x, int y, void *null)

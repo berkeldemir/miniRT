@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:40:25 by beldemir          #+#    #+#             */
-/*   Updated: 2025/12/09 14:44:13 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:44:25 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 
 # define GET 0
 # define SET 1
+
+# define ON 1
+# define OFF 0
 
 # define HIGH_RES 1
 # define LOW_RES 4
@@ -164,7 +167,7 @@ typedef struct s_mini
 	char		*file_name;
 	uint64_t	last_refresh;
 	int			render_res;
-	t_bool		is_fullscreen;
+	int			shadows;
 	t_ambient	a;
 	t_camera	c;
 	t_light		l;
@@ -234,5 +237,6 @@ uint32_t	apply_light(t_hit hit);
 int			camera_moves(int key);
 
 void		put_img_to_win(void);
+int			action_log(int key, char *act, char *old, char *new);
 
 #endif
