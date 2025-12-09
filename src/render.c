@@ -97,27 +97,49 @@ void	setup_camera_basis_and_viewport(void)
 	return ;
 }
 
+static void render_pixel_low_quality(unsigned int color, unsigned int *pixel)
+{
+	int	i;
+	int	j;
+	int	sizeline;
+
+	sizeline = mini()->mlx.sizeline / 4; 
+	j = 0;
+	while (j < mini()->render_res)
+	{
+		i = 0;
+		while (i < mini()->render_res)
+		{
+			*(pixel + i + (j * sizeline)) = color;
+			i++;
+		}
+		j++;
+	}
+}
+
 int	render(void)
 {
-	void	*pixel;
-	int		x;
-	int		y;
+	unsigned int	color;
+	void			*pixel;
+	int				x;
+	int				y;
 
 	setup_camera_basis_and_viewport();
-	x = -1;
-	while (++x < W)
+	x = 0;
+	while (x < W)
 	{
-		y = -1;
-		while (++y < H)
+		y = 0;
+		while (y < H)
 		{
 			pixel = mini()->mlx.ptr + (y * mini()->mlx.sizeline) + \
 			(x * (mini()->mlx.bpp / 8));
-			*(unsigned int *)pixel = calculate_pixel_color(x, y);
+			color = calculate_pixel_color(x, y);
+			*(unsigned int *)pixel = color;
+			if (mini()->render_res != 1)
+				render_pixel_low_quality(color, (unsigned int *)pixel);
+			y += mini()->render_res;
 		}
+		x += mini()->render_res;
 	}
-	mlx_put_image_to_window(\
-		mini()->mlx.mlx, \
-		mini()->mlx.win, \
-		mini()->mlx.img, 0, 0);
 	return (SUCCESS);
 }

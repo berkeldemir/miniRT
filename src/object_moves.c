@@ -26,7 +26,7 @@ static t_vec3	rotate_util(t_vec3	vector, double angle)
 	return (v3_calc_normalize(new));
 }
 
-void	rotate_object(int key)
+static void	rotate_object(int key)
 {
 	t_obj	*obj;
 
@@ -57,7 +57,7 @@ static void	move_util(t_vec3 vector, char mp)
 	obj->coords.z = obj->coords.z + (vector.z * sign * MOVE_SPEED);
 }
 
-void	move_object(int key)
+static void	move_object(int key)
 {
 	if (key == XK_W || key == XK_w)
 		move_util(mini()->c.normal, '+');
@@ -71,4 +71,33 @@ void	move_object(int key)
 		move_util(mini()->c.up, '+');
 	if (key == XK_Shift_L || key == XK_Shift_R)
 		move_util(mini()->c.up, '-');
+}
+
+int	object_moves(int key)
+{
+	t_obj	*obj;
+
+	obj = state(GET, NULL);
+	if (key == XK_W || key == XK_w \
+	|| key == XK_A || key == XK_a \
+	|| key == XK_S || key == XK_s \
+	|| key == XK_D || key == XK_d || key == XK_space \
+	|| key == XK_Shift_L || key == XK_Shift_R)
+		move_object(key);
+	else if (key == XK_Up || key == XK_Left || \
+	key == XK_Down || key == XK_Right)
+		rotate_object(key);
+	else if ((key == XK_U || key == XK_u) && (obj->diameter != -1))
+		state(GET, NULL)->diameter += RATIO;
+	else if ((key == XK_J || key == XK_j) && (obj->diameter != -1) && \
+	(obj->diameter - RATIO >= 0))
+		state(GET, NULL)->diameter -= RATIO;
+	else if ((key == XK_O || key == XK_o) && (obj->height != -1))
+		state(GET, NULL)->height += RATIO;
+	else if ((key == XK_L || key == XK_l) && (obj->height != -1) && \
+	(obj->height - RATIO >= 0))
+		state(GET, NULL)->height -= RATIO;
+	else
+		return (FAIL);
+	return (SUCCESS);
 }

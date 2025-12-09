@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <math.h>
+# include <sys/time.h>
 # include "./mlx/mlx.h"
 # include "./libft/include/libft.h"
 
@@ -19,16 +20,21 @@
 # define GET 0
 # define SET 1
 
+# define HIGH_RES 1
+# define LOW_RES 4
+# define RERENDER_MS 400
+
 # define COLOR_RED "\e[0;101m"
 # define COLOR_RESET "\e[0m"
 
 # define MSG_OK ""
-# define ERR_CALLOC " Calloc failed! "
-# define ERR_ARGS " Arguments are wrong! "
-# define ERR_INITIALIZE " Initialization failed! "
-# define ERR_OPENFAIL " File open failed! "
-# define ERR_PARSE " Parse failed! "
-# define ERR_DRAW " Draw failed! "
+# define ERR "Error\n"
+# define ERR_CALLOC "Calloc failed!"
+# define ERR_ARGS "Arguments are wrong!"
+# define ERR_INITIALIZE "Initialization failed!"
+# define ERR_OPENFAIL "File open failed!"
+# define ERR_PARSE "Parse failed!"
+# define ERR_DRAW "Draw failed!"
 
 # define W 800
 # define H 600
@@ -169,6 +175,9 @@ typedef struct	s_mini
 {
 	t_mlx		mlx;
 	char		*file_name;
+	uint64_t	last_refresh;
+	int			render_res;
+	t_bool		is_fullscreen;
 	t_ambient	a;
 	t_camera	c;
 	t_light		l;
@@ -186,6 +195,7 @@ t_ray		generate_ray_from_pixel(int x, int y);
 t_mini		*mini(void);
 t_obj		*state(char getset, t_obj *obj);
 int			arg_control(int ac, char **av);
+uint64_t	get_time(void);
 void		quit(char *msg, int retval);
 
 // hooks.c
@@ -215,8 +225,7 @@ int			rt_coords(t_vec3 *ptr, char *coords, t_bool limit_one);
 t_vec3		v3_new(double x, double y, double z);
 
 // object_moves.c
-void	rotate_object(int key);
-void	move_object(int key);
+int	object_moves(int key);
 
 // v3_helpers.c
 t_vec3 		v3_calc2(t_vec3 a, char operation, t_vec3 b);
@@ -235,7 +244,11 @@ void		intersect_plane(t_ray *ray, t_obj *obj, t_hit *best_hit);
 uint32_t    apply_light(t_hit hit);
 
 // camera_moves.c
-void		move_camera(int key);
-void		rotate_camera(int key);
+int	camera_moves(int key);
+
+
+
+
+void	put_img_to_win(void);
 
 #endif

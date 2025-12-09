@@ -1,4 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: beldemir <beldemir@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 13:50:58 by beldemir          #+#    #+#             */
+/*   Updated: 2025/12/09 13:51:11 by beldemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/mini.h"
+
+void	put_img_to_win(void)
+{
+	mlx_clear_window(mini()->mlx.mlx, mini()->mlx.win);
+	mlx_put_image_to_window(\
+	mini()->mlx.mlx, mini()->mlx.win, mini()->mlx.img, 0, 0);
+}
 
 static int	normalize_normals(void)
 {
@@ -20,6 +39,7 @@ static int	initializer(void)
 	t_mini	*m;
 
 	m = mini();
+	m->render_res = HIGH_RES;
 	m->mlx.mlx = mlx_init();
 	m->mlx.win = mlx_new_window(m->mlx.mlx, W, H, TITLE);
 	m->mlx.img = mlx_new_image(m->mlx.mlx, W, H);
@@ -29,6 +49,7 @@ static int	initializer(void)
 	if (!m->mlx.mlx || !m->mlx.win || !m->mlx.img || !m->mlx.ptr)
 		return (FAIL);
 	normalize_normals();
+	m->is_fullscreen = FALSE;
 	if (start_hooks() == FAIL)
 		return (FAIL);
 	printf("%s\n", mini()->file_name);
@@ -47,6 +68,8 @@ int	main(int ac, char **av)
 		quit(ERR_INITIALIZE, FAIL);
 	if (render() == FAIL)
 		quit(ERR_DRAW, FAIL);
+	else
+		put_img_to_win();
 	/*
 	t_list *lst = mini()->objs;
 	int		i = 1;

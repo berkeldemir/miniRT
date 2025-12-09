@@ -36,7 +36,7 @@ static t_vec3   rotate_pitch(char mp)
 	return (v3_calc_normalize(new_dir));
 }
 
-void	rotate_camera(int key)
+static void	rotate_camera(int key)
 {
 	if (key == XK_Up)
 		mini()->c.normal = rotate_pitch('+');
@@ -48,7 +48,7 @@ void	rotate_camera(int key)
 		mini()->c.normal = rotate_yaw('+');
 }
 
-void move_camera(int key)
+static void move_camera(int key)
 {
 	t_vec3	speed_vec;
 	t_vec3	step_up;
@@ -72,4 +72,21 @@ void move_camera(int key)
 		mini()->c.coords = v3_calc2(mini()->c.coords, '+', step_up);
 	else if (key == XK_Shift_L || key == XK_Shift_R)
 		mini()->c.coords = v3_calc2(mini()->c.coords, '-', step_up);
+}
+
+int	camera_moves(int key)
+{
+	if (key == XK_W || key == XK_w \
+	|| key == XK_A || key == XK_a \
+	|| key == XK_S || key == XK_s \
+	|| key == XK_D || key == XK_d \
+	|| key == XK_Shift_L || key == XK_Shift_R \
+	|| key == XK_space)
+		move_camera(key);
+	else if (key == XK_Up || key == XK_Left || \
+	key == XK_Down || key == XK_Right)
+		rotate_camera(key);
+	else
+		return (FAIL);
+	return (SUCCESS);
 }

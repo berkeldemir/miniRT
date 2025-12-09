@@ -1,5 +1,13 @@
 #include "../inc/mini.h"
 
+uint64_t	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((uint64_t)((tv.tv_sec * 1000) + (tv.tv_usec / 1000)));
+}
+
 t_mini	*mini(void)
 {
 	static t_mini	*info = NULL;
@@ -39,8 +47,10 @@ int	arg_control(int ac, char **av)
 	i = 0;
 	while (av[1][i])
 		i++;
-	if (i < 4 || av[1][i - 3] != '.' || av[1][i - 2] != 'r' || av[1][i
-		- 1] != 't')
+	if (i < 4 || \
+		av[1][i - 3] != '.' || \
+		av[1][i - 2] != 'r' || \
+		av[1][i - 1] != 't')
 		return (FAIL);
 	mini()->file_name = av[1];
 	return (SUCCESS);
@@ -60,6 +70,7 @@ void	quit(char *msg, int retval)
 	mini()->mlx.img = NULL;
 	ft_lstclear(&mini()->objs, free);
 	free(mini());
-	printf("%s%s%s\n", COLOR_RED, msg, COLOR_RESET);
+	if (retval != 0)
+		printf("%s%s %s %s\n", ERR, COLOR_RED, msg, COLOR_RESET);
 	exit(retval);
 }
