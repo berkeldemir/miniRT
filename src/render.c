@@ -34,7 +34,7 @@ void	setup_camera_basis_and_viewport(void)
 	c->fwd = c->normal;
 	if (c->fwd.x == 0 && c->fwd.z == 0 && \
 		(c->fwd.y == 1 || c->fwd.y == -1))
-		w_up = v3_new(0.0, 0.0, 1.0);
+		w_up = v3_new(0.0, 0.0, 1.0); // cross product sonunda  vektör 0,0,0 olmasın diye
 	else
 		w_up = v3_new(0.0, 1.0, 0.0);
 	c->right = v3_calc_normalize(v3_calc2_cross(w_up, c->fwd));
