@@ -1,0 +1,27 @@
+A 0.3 255,255,255
+C 0,5,30 0,0,-1 45
+L 20,20,20 0.8 255,255,255
+
+# 1. THE FLOOR (Snow)
+pl 0,0,0 0,1,0 230,230,255
+
+# 2. THE BODY (Stacked Snowballs)
+# Bottom (Diameter 8)
+sp 0,4,0 8.0 255,255,255
+# Middle (Diameter 5.6)
+sp 0,9.5,0 5.6 255,255,255
+# Head (Diameter 4.0)
+sp 0,13.5,0 4.0 255,255,255
+
+# 3. THE FACE
+# Right Eye (Black)
+sp 0.8,14.0,1.8 0.5 0,0,0
+# Left Eye (Black)
+sp -0.8,14.0,1.8 0.5 0,0,0
+# Nose (Orange "Carrot")
+sp 0,13.2,2.2 0.7 255,140,0
+
+# 4. BUTTONS (Coal on the middle ball)
+sp 0,10.5,2.6 0.6 0,0,0
+sp 0,9.0,2.8 0.6 0,0,0
+sp 0,7.5,2.6 0.6 0,0,0
